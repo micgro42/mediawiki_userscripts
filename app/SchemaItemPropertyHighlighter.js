@@ -1,9 +1,9 @@
 $(function () {
-    const propertyRegEx = /\b[PQ]\d+(?=\b|_)/g;
+    const entityRegEx = /\b[PQ]\d+(?=\b|_)/g;
     const scriptName = 'SchemaItemPropertyHighlighter';
 
     function markupEntities(html, entitiesData) {
-        return html.replace(propertyRegEx, function (match) {
+        return html.replace(entityRegEx, function (match) {
             return $('<a>').attr({
                 href: 'https://www.wikidata.org/wiki/' + entitiesData[match].title,
                 title: entitiesData[match].labels.en.value
@@ -28,7 +28,7 @@ $(function () {
     }
 
     function getListOfEntitiesFromSchemaText(schemaText) {
-        return [...new Set(schemaText.match(propertyRegEx))];
+        return [...new Set(schemaText.match(entityRegEx))];
     }
 
     const $schemaText = $('#wbschema-schema-text');
