@@ -4,6 +4,9 @@ $(function () {
 
     function markupEntities(html, entitiesData) {
         return html.replace(entityRegEx, function (match) {
+            if (!entitiesData[match] || typeof entitiesData[match].missing !== 'undefined') {
+                return match;
+            }
             return $('<a>').attr({
                 href: 'https://www.wikidata.org/wiki/' + entitiesData[match].title,
                 title: entitiesData[match].labels.en.value
@@ -11,7 +14,19 @@ $(function () {
         });
     }
 
-    function requestEntitiesData(listOfEntities) {
+    async function requestEntitiesData(listOfEntities) {
+        const entityBatches = splitIntoBatches(listOfEntities);
+
+        const data = {};
+        for (const batch of entityBatches) {
+            let dataBatch = await requestBatchEntitiesData(batch);
+            Object.assign(data, dataBatch);
+        }
+
+        return data;
+    }
+
+    async function requestBatchEntitiesData(listOfEntities) {
         const urlBase = 'https://www.wikidata.org/w/api.php';
         const urlParams = {
             action: 'wbgetentities',
@@ -24,8 +39,35 @@ $(function () {
 
         return fetch(
             urlBase + '?' + jQuery.param(urlParams)
-        );
+        ).then(function (response) {
+                return response.json();
+            }
+        ).then(function (responseData) {
+            if (responseData.error) {
+                console.warn('Error in userscript: ' + scriptName);
+                console.warn({
+                    code: responseData.error.code,
+                    info: responseData.error.info,
+                    servedby: responseData.servedby,
+                });
+                return;
+            }
+            return responseData.entities;
+        });
     }
+
+    function splitIntoBatches(listOfEntities) {
+        const maxBatchSize = 50.0;
+        return listOfEntities.reduce((acc, cur, i) => {
+            const index = Math.floor(i / maxBatchSize);
+            if (!acc[index]) {
+                acc[index] = [];
+            }
+            acc[index].push(cur);
+            return acc;
+        }, []);
+    }
+
 
     function getListOfEntitiesFromSchemaText(schemaText) {
         return [...new Set(schemaText.match(entityRegEx))];
@@ -44,22 +86,10 @@ $(function () {
     }
 
     requestEntitiesData(listOfEntities)
-        .then(function (response) {
-            return response.json();
+        .then(function (responseData) {
+            $schemaText.html(markupEntities($schemaText.html(), responseData));
         })
-        .then(function(responseData){
-            if (responseData.error) {
-                console.warn('Error in userscript: ' + scriptName);
-                console.warn({
-                    code: responseData.error.code,
-                    info: responseData.error.info,
-                    servedby: responseData.servedby,
-                });
-                return;
-            }
-            $schemaText.html(markupEntities($schemaText.html(), responseData.entities ));
-        })
-        .catch(function(error){
+        .catch(function (error) {
             console.warn('Error in userscript: ' + scriptName);
             console.warn(error);
         })
