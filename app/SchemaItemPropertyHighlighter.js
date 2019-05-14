@@ -68,20 +68,17 @@ $(function () {
         }, []);
     }
 
-
     function getListOfEntitiesFromSchemaText(schemaText) {
         return [...new Set(schemaText.match(entityRegEx))];
     }
 
     const $schemaText = $('#entityschema-schema-text');
     if (!$schemaText.length || !$schemaText.text().length) {
-        console.log('Not a Schema or Schema without text');
         return;
     }
 
     const listOfEntities = getListOfEntitiesFromSchemaText($schemaText.html());
     if (!listOfEntities.length) {
-        console.log('No Entities found in text');
         return;
     }
 
