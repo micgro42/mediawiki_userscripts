@@ -73,7 +73,7 @@ $(function () {
         return [...new Set(schemaText.match(entityRegEx))];
     }
 
-    const $schemaText = $('#wbschema-schema-text');
+    const $schemaText = $('#entityschema-schema-text');
     if (!$schemaText.length || !$schemaText.text().length) {
         console.log('Not a Schema or Schema without text');
         return;
