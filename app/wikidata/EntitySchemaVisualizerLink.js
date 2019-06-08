@@ -1,18 +1,26 @@
-$(function () {
-	const $schemaText = $('#entityschema-schema-text');
-	if (!$schemaText.length || !$schemaText.text().length) {
-		return;
-	}
+$(function() {
+  const $schemaText = $('#entityschema-schema-text');
+  if (!$schemaText.length || !$schemaText.text().length) {
+    return;
+  }
 
-	const urlBase = 'http://rdfshape.weso.es/schemaInfo?schemaFormat=ShExC&schemaEngine=ShEx&schemaURL=';
+  const urlBase =
+    'http://rdfshape.weso.es/schemaInfo?schemaFormat=ShExC&schemaEngine=ShEx&schemaURL=';
 
-	const schemaTextUrl = location.href.replace('EntitySchema:', 'Special:EntitySchemaText/');
+  const schemaTextUrl = location.href.replace(
+    'EntitySchema:',
+    'Special:EntitySchemaText/'
+  );
 
-	const $link = jQuery('<a>').attr({
-		href: urlBase + schemaTextUrl,
-		class: 'external',
-	}).text('Visualize Schema');
-	const fakeParserWrapper = jQuery('<span>').addClass('mw-parser-output').prepend($link);
+  const $link = jQuery('<a>')
+    .attr({
+      href: urlBase + schemaTextUrl,
+      class: 'external',
+    })
+    .text('Visualize Schema');
+  const fakeParserWrapper = jQuery('<span>')
+    .addClass('mw-parser-output')
+    .prepend($link);
 
-	$('.entityschema-schema-text-links').prepend(fakeParserWrapper);
+  $('.entityschema-schema-text-links').prepend(fakeParserWrapper);
 });
