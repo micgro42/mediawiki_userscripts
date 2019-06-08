@@ -4,8 +4,6 @@ $(function () {
 		return;
 	}
 
-	const scriptName = 'EntitySchemaVisualizerLink';
-
 	const urlBase = 'http://rdfshape.weso.es/schemaInfo?schemaFormat=ShExC&schemaEngine=ShEx&schemaURL=';
 
 	const schemaTextUrl = location.href.replace('EntitySchema:', 'Special:EntitySchemaText/');

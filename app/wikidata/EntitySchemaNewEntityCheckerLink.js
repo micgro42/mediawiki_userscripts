@@ -4,8 +4,6 @@ $(function () {
         return;
     }
 
-    const scriptName = 'EntitySchemaNewEntityCheckerLink';
-
     const urlBase = 'https://micgro42.github.io/wikidataShExValidator?schemaURL=';
 
     const schemaTextUrl = location.href.replace('EntitySchema:', 'Special:EntitySchemaText/');
