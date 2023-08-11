@@ -3,7 +3,7 @@
   "description": "My mediawiki userscripts",
   "repository": "git@github.com:micgro42/mediawiki_userscripts.git",
   "author": "Michael Große <mic.grosse@googlemail.com>",
-  "license": "GPL-2",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "eslint": "^8.47.0",
     "prettier": "3.0.1"
