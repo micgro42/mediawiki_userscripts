@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   const $schemaText = $('#entityschema-schema-text');
   if (!$schemaText.length || !$schemaText.text().length) {
     return;
@@ -9,7 +9,7 @@ $(function() {
 
   const schemaTextUrl = location.href.replace(
     'EntitySchema:',
-    'Special:EntitySchemaText/'
+    'Special:EntitySchemaText/',
   );
 
   const $link = jQuery('<a>')

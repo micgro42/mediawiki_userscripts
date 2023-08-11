@@ -1,9 +1,9 @@
-$(function() {
+$(function () {
   const entityRegEx = /\b[PQ]\d+(?=\b|_)/g;
   const scriptName = 'SchemaItemPropertyHighlighter';
 
   function markupEntities(html, entitiesData) {
-    return html.replace(entityRegEx, function(match) {
+    return html.replace(entityRegEx, function (match) {
       if (
         !entitiesData[match] ||
         typeof entitiesData[match].missing !== 'undefined'
@@ -43,10 +43,10 @@ $(function() {
     };
 
     return fetch(urlBase + '?' + jQuery.param(urlParams))
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(responseData) {
+      .then(function (responseData) {
         if (responseData.error) {
           console.warn('Error in userscript: ' + scriptName);
           console.warn({
@@ -87,10 +87,10 @@ $(function() {
   }
 
   requestEntitiesData(listOfEntities)
-    .then(function(responseData) {
+    .then(function (responseData) {
       $schemaText.html(markupEntities($schemaText.html(), responseData));
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.warn('Error in userscript: ' + scriptName);
       console.warn(error);
     });
