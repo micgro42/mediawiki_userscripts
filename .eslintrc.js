@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     jquery: true,
+    commonjs: true,
   },
   extends: 'eslint:recommended',
   globals: {
