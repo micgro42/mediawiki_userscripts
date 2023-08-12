@@ -32,17 +32,67 @@ async function main() {
     password: botPass,
   });
 
+  const crypto = require('crypto');
   const filePrefix = 'src';
-  const files = await getFileList(filePrefix);
-  files.forEach(async (filePath, index, allFiles) => {
+  const localFiles = await getFileList(filePrefix);
+  console.log('Found number of local files:', localFiles.length);
+  // get file meta data
+  const localPageData = localFiles.reduce((carry, filePath) => {
     const subPageName = filePath.substr(filePrefix.length + 1);
     const fullPageName = `User:${username}/${subPageName}`;
-    console.log(`Uploading ${index + 1}/${allFiles.length}: ${fullPageName}`);
-
-    const content = fs.readFileSync(filePath, 'utf8');
-    await bot.edit(
-      fullPageName,
+    const content = fs.readFileSync(filePath, 'utf8').trim();
+    const shasum = crypto.createHash('sha1');
+    shasum.update(content);
+    carry[fullPageName] = {
+      filePath,
       content,
+      sha1: shasum.digest('hex'),
+      fullPageName,
+    };
+    return carry;
+  }, {});
+
+  console.log('Requesting file meta data...');
+  const pageRevisionMetaQueryResponse = await bot.request({
+    action: 'query',
+    prop: 'revisions',
+    rvprop: 'timestamp|slotsha1|user|comment',
+    titles: Object.keys(localPageData).join('|'),
+    format: 'json',
+    formatversion: 2,
+  });
+  const pagesMeta = pageRevisionMetaQueryResponse.query.pages;
+
+  const changedFiles = Object.entries(localPageData).filter(
+    ([pageName, pageData]) => {
+      const pageMeta = pagesMeta.find((page) => page.title === pageName);
+      if (!pageMeta) {
+        console.log(`Page ${pageName} does not exist yet`);
+        return true;
+      }
+      if (pageMeta.revisions[0].sha1 !== pageData.sha1) {
+        console.log(`Page ${pageName} has changed`);
+        return true;
+      }
+      console.log(`Page ${pageName} has not changed`);
+      return false;
+    },
+  );
+
+  console.log('Found number of changed files:', changedFiles.length);
+
+  // update files that changed
+  changedFiles.forEach(async ([, pageData], index, allFiles) => {
+    // const subPageName = filePath.substr(filePrefix.length + 1);
+    // const fullPageName = `User:${username}/${subPageName}`;
+    console.log(
+      `Uploading ${index + 1}/${allFiles.length}: ${pageData.fullPageName}`,
+    );
+
+    // const content = fs.readFileSync(filePath, 'utf8');
+    await bot.edit(
+      pageData.fullPageName,
+      pageData.content,
       'Uploaded from https://github.com/micgro42/mediawiki_userscripts',
     );
   });
