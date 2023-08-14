@@ -1,3 +1,4 @@
+// This file is maintained at https://github.com/micgro42/mediawiki_userscripts
 const { ref, inject } = require('vue');
 const { CdxField, CdxLookup } = require('@wikimedia/codex');
 const { debounce } = require('User:Zvpunry/util.js');
