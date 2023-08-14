@@ -1,21 +1,6 @@
-function debounce(cb, timeout) {
-  let timeoutId = null;
-  return function (...params) {
-    return new Promise(function (resolve) {
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
-      }
-      timeoutId = setTimeout(function () {
-        timeoutId = null;
-        resolve(cb(...params));
-      }, timeout);
-    });
-  };
-}
-
 const { ref, inject } = require('vue');
 const { CdxField, CdxLookup } = require('@wikimedia/codex');
+const { debounce } = require('User:Zvpunry/util.js');
 
 module.exports = {
   name: 'EntityLookup',
