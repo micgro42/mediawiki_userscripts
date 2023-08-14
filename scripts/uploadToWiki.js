@@ -14,24 +14,6 @@ async function main() {
     throw new Error('BOT_USER must start with USER_NAME!');
   }
 
-  const bot = new MWBot({
-    apiUrl: 'https://www.wikidata.org/w/api.php', // FIXME: make configurable?
-  });
-
-  bot.setGlobalRequestOptions({
-    headers: {
-      'User-Agent':
-        'PersonalUserscriptUpdater/0.0 (https://github.com/micgro42/mediawiki_userscripts) mwbot/2.1.3',
-    },
-  });
-
-  console.log('Logging in...');
-
-  await bot.loginGetEditToken({
-    username: botName,
-    password: botPass,
-  });
-
   const crypto = require('crypto');
   const filePrefix = 'src';
   const localFiles = await getFileList(filePrefix);
@@ -51,6 +33,24 @@ async function main() {
     };
     return carry;
   }, {});
+
+  const bot = new MWBot({
+    apiUrl: 'https://www.wikidata.org/w/api.php', // FIXME: make configurable?
+  });
+
+  bot.setGlobalRequestOptions({
+    headers: {
+      'User-Agent':
+        'PersonalUserscriptUpdater/0.0 (https://github.com/micgro42/mediawiki_userscripts) mwbot/2.1.3',
+    },
+  });
+
+  console.log('Logging in...');
+
+  await bot.loginGetEditToken({
+    username: botName,
+    password: botPass,
+  });
 
   console.log('Requesting file meta data...');
   const pageRevisionMetaQueryResponse = await bot.request({
