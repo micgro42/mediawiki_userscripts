@@ -103,6 +103,9 @@ async function getFileList(dirName) {
   const items = await fs.promises.readdir(dirName, { withFileTypes: true });
 
   for (const item of items) {
+    if (item.name === 'index.js') {
+      continue;
+    }
     if (item.isDirectory()) {
       files = [...files, ...(await getFileList(`${dirName}/${item.name}`))];
     } else {
