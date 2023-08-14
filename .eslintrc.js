@@ -16,4 +16,10 @@ module.exports = {
   rules: {
     'no-console': 'off',
   },
+  overrides: [
+    {
+      files: ['vite.config.js', 'dev/main.js' ],
+      parserOptions: { sourceType: 'module' },
+    },
+  ],
 };
