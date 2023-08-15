@@ -118,7 +118,7 @@ module.exports = {
 				values: value,
 				// lang:
 				// options {lang:"en"}
-			} );
+			} ).catch( ( errorCode, errorData ) => Promise.reject(errorData));
 		}
 
 		const debouncedParseValue = debounce( parseValueWithApi, 500 );
@@ -135,10 +135,10 @@ module.exports = {
 				}
 				emit('update:value', results[0] );
 				errorMessages.value = null;
-			}, ( errorCode, ...errorData ) => {
-				console.log( 'time parse error:', errorCode, errorData );
+			}, ( errorData ) => {
+				console.log( 'time parse error:', errorData );
 				emit('update:value', null );
-				errorMessages.value = { error: 'Figure out why we\'re not getting "errorData.error.info" in js from mw.Api' };
+				errorMessages.value = { error: errorData.error.info };
 			} );
 		}
 
