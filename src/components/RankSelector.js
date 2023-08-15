@@ -14,7 +14,7 @@ module.exports = {
 			:input-value="rank"
 			:inline="true"
 		>
-			{{ rank }}
+			{{ $i18n('wikibase-statementview-rank-' + rank) }}
 		</cdx-radio>
 		<template #label>
 			Rank
