@@ -14,7 +14,7 @@ module.exports = {
 		:status="errorMessages ? 'error' : 'default'"
 	>
 		<cdx-text-input
-			:model-value="timeInputString"
+			v-model="timeInputString"
 			@update:model-value="onInput"
 		></cdx-text-input>
 		<template #label>
@@ -124,7 +124,6 @@ module.exports = {
           timeInputString.value = data.result;
         },
       );
-      // timeInputString.value = props.datavalue.value.time;
     }
 
     const api = new mw.Api();
