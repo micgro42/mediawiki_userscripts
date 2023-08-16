@@ -5,6 +5,7 @@ const messages = {
   'wikibase-snakview-variations-somevalue-label': 'unknown value',
   'wikibase-snakview-variations-novalue-label': 'no value',
   'wikibase-snakview-snaktypeselector-value': 'custom value',
+  'valueview-expertextender-languageselector-label': 'Language (mandatory):',
 };
 
 function escape(s) {

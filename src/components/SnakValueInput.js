@@ -4,6 +4,7 @@ const {
   StringValueInput,
   EntityValueInput,
   TimeValueInput,
+  MonoLingualTextValueInput,
 } = require('User:Zvpunry/components');
 
 module.exports = {
@@ -25,6 +26,7 @@ module.exports = {
     StringValueInput,
     EntityValueInput,
     TimeValueInput,
+    MonoLingualTextValueInput,
   },
   props: ['datatype', 'value'],
   emits: ['update:value'],
@@ -60,6 +62,9 @@ module.exports = {
       }
       if (props.datatype === 'time') {
         return 'TimeValueInput';
+      }
+      if (props.datatype === 'monolingualtext') {
+        return 'MonoLingualTextValueInput';
       }
       return null;
     });
