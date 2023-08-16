@@ -6,21 +6,21 @@ const { debounce } = require('User:Zvpunry/util.js');
 module.exports = {
   name: 'EntityLookup',
   template: `
-	    <cdx-field>
-	    	<p v-if="isInitialEntitySearching">Searching for Entity...🔎</p>
-	        <cdx-lookup
-	        	v-show="!isInitialEntitySearching"
-	        	:placeholder="placeholder"
-	        	:menu-items="menuItems"
-	        	v-model:selected="selection"
-	        	@input="onNewInput"
-	        	@update:selected="onSelection"
-	        ></cdx-lookup>
-	        <template #label>
-				{{ label }}
-			</template>
-	    </cdx-field>
-	`,
+      <cdx-field>
+        <p v-if="isInitialEntitySearching">Searching for Entity...🔎</p>
+        <cdx-lookup
+          v-show="!isInitialEntitySearching"
+          :placeholder="placeholder"
+          :menu-items="menuItems"
+          v-model:selected="selection"
+          @input="onNewInput"
+          @update:selected="onSelection"
+        ></cdx-lookup>
+        <template #label>
+          {{ label }}
+        </template>
+      </cdx-field>
+  `,
   components: {
     CdxField,
     CdxLookup,
