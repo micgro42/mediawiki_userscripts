@@ -2,6 +2,9 @@ const messages = {
   'wikibase-statementview-rank-deprecated': 'Deprecated rank',
   'wikibase-statementview-rank-normal': 'Normal rank',
   'wikibase-statementview-rank-preferred': 'Preferred rank',
+  'wikibase-snakview-variations-somevalue-label': 'unknown value',
+  'wikibase-snakview-variations-novalue-label': 'no value',
+  'wikibase-snakview-snaktypeselector-value': 'custom value',
 };
 
 function escape(s) {
