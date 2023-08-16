@@ -10,43 +10,43 @@ const { useMobileEditingStore } = require('User:Zvpunry/MobileEditingStore.js');
 module.exports = {
   name: 'TimeValueInput',
   template: `<cdx-field
-		:messages="errorMessages"
-		:status="errorMessages ? 'error' : 'default'"
-	>
-		<cdx-text-input
-			v-model="timeInputString"
-			@update:model-value="onInput"
-		></cdx-text-input>
-		<template #label>
-			Add value for datatype "{{datatype}}"
-		</template>
-	</cdx-field>
+    :messages="errorMessages"
+    :status="errorMessages ? 'error' : 'default'"
+  >
+    <cdx-text-input
+      v-model="timeInputString"
+      @update:model-value="onInput"
+    ></cdx-text-input>
+    <template #label>
+      Add value for datatype "{{datatype}}"
+    </template>
+  </cdx-field>
 
-	<cdx-field>
-	<cdx-select
-		:menu-items="precisionMenuItems"
-		:selected="selectedPrecision"
-		@update:selected="onPrecisionInput"
-		:disabled="!selectedPrecision"
-	>
-	</cdx-select>
-	<template #label>
-		{{ $i18n('valueview-expert-timeinput-precision') }}
-	</template>
-	</cdx-field>
+  <cdx-field>
+  <cdx-select
+    :menu-items="precisionMenuItems"
+    :selected="selectedPrecision"
+    @update:selected="onPrecisionInput"
+    :disabled="!selectedPrecision"
+  >
+  </cdx-select>
+  <template #label>
+    {{ $i18n('valueview-expert-timeinput-precision') }}
+  </template>
+  </cdx-field>
 
-	<cdx-field>
-	<cdx-select
-		:menu-items="calendarMenuItems"
-		:selected="selectedCalendarModel"
-		@update:selected="onCalendarInput"
-		:disabled="!selectedCalendarModel"
-	>
-	</cdx-select>
-	<template #label>
-		{{ $i18n('valueview-expert-timeinput-calendar') }}
-	</template>
-	</cdx-field>`,
+  <cdx-field>
+  <cdx-select
+    :menu-items="calendarMenuItems"
+    :selected="selectedCalendarModel"
+    @update:selected="onCalendarInput"
+    :disabled="!selectedCalendarModel"
+  >
+  </cdx-select>
+  <template #label>
+    {{ $i18n('valueview-expert-timeinput-calendar') }}
+  </template>
+  </cdx-field>`,
   components: {
     CdxTextInput,
     CdxSelect,
