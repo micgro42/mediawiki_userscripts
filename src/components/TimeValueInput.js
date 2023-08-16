@@ -56,6 +56,7 @@ module.exports = {
     datavalue: Object,
     datatype: String,
   },
+  emits: ['update:datavalue'],
   setup(props, { emit }) {
     const i18n = inject('i18n');
 
@@ -74,7 +75,7 @@ module.exports = {
       return props.datavalue?.value.calendarmodel || null;
     });
     function onCalendarInput(value) {
-      emit('update:value', {
+      emit('update:datavalue', {
         type: 'time',
         value: {
           ...props.datavalue.value,
@@ -108,7 +109,7 @@ module.exports = {
       return props.datavalue?.value.precision;
     });
     function onPrecisionInput(value) {
-      emit('update:value', {
+      emit('update:datavalue', {
         type: 'time',
         value: {
           ...props.datavalue.value,
@@ -148,7 +149,7 @@ module.exports = {
 
     function onInput(value) {
       if (value === '') {
-        emit('update:value', null);
+        emit('update:datavalue', null);
         errorMessages.value = null;
         return;
       }
@@ -158,12 +159,12 @@ module.exports = {
           if (warnings) {
             warnings.forEach((warning) => console.warn(warning));
           }
-          emit('update:value', results[0]);
+          emit('update:datavalue', results[0]);
           errorMessages.value = null;
         },
         (errorData) => {
           console.log('time parse error:', errorData);
-          emit('update:value', null);
+          emit('update:datavalue', null);
           errorMessages.value = { error: errorData.error.info };
         },
       );
