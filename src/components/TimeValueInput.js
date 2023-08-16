@@ -25,8 +25,9 @@ module.exports = {
 	<cdx-field>
 	<cdx-select
 		:menu-items="precisionMenuItems"
-		v-model:selected="selectedPrecision"
+		:selected="selectedPrecision"
 		@update:selected="onPrecisionInput"
+		:disabled="!selectedPrecision"
 	>
 	</cdx-select>
 	<template #label>
@@ -37,8 +38,9 @@ module.exports = {
 	<cdx-field>
 	<cdx-select
 		:menu-items="calendarMenuItems"
-		v-model:selected="selectedCalendarModel"
+		:selected="selectedCalendarModel"
 		@update:selected="onCalendarInput"
+		:disabled="!selectedCalendarModel"
 	>
 	</cdx-select>
 	<template #label>
@@ -69,7 +71,7 @@ module.exports = {
       },
     ];
     const selectedCalendarModel = computed(() => {
-      return props.datavalue?.value.calendarmodel;
+      return props.datavalue?.value.calendarmodel || null;
     });
     function onCalendarInput(value) {
       emit('update:value', {
@@ -118,8 +120,8 @@ module.exports = {
     // the actual time input
     const timeInputString = ref('');
     const store = useMobileEditingStore();
-    if (props?.datavalue.value.time) {
-      formatDatavaluePlain(store.statementPropertyId, props?.datavalue).then(
+    if (props.datavalue?.value.time) {
+      formatDatavaluePlain(store.statementPropertyId, props.datavalue).then(
         (data) => {
           timeInputString.value = data.result;
         },
@@ -146,6 +148,8 @@ module.exports = {
 
     function onInput(value) {
       if (value === '') {
+        emit('update:value', null);
+        errorMessages.value = null;
         return;
       }
 
