@@ -56,6 +56,8 @@ module.exports = {
   },
   setup(props, { emit }) {
     const i18n = inject('i18n');
+
+    // calendar model
     const calendarMenuItems = [
       {
         label: i18n('valueview-expert-timevalue-calendar-julian'),
@@ -66,6 +68,20 @@ module.exports = {
         value: 'http://www.wikidata.org/entity/Q1985727',
       },
     ];
+    const selectedCalendarModel = computed(() => {
+      return props.datavalue?.value.calendarmodel;
+    });
+    function onCalendarInput(value) {
+      emit('update:value', {
+        type: 'time',
+        value: {
+          ...props.datavalue.value,
+          calendarmodel: value,
+        },
+      });
+    }
+
+    // precision
     const precisionMenuItems = [
       { label: i18n('valueview-expert-timeinput-precision-day'), value: 11 },
       { label: i18n('valueview-expert-timeinput-precision-month'), value: 10 },
@@ -86,24 +102,9 @@ module.exports = {
       },
       { label: i18n('valueview-expert-timeinput-precision-year1g'), value: 0 },
     ];
-
-    const selectedCalendarModel = computed(() => {
-      return props.datavalue?.value.calendarmodel;
-    });
     const selectedPrecision = computed(() => {
       return props.datavalue?.value.precision;
     });
-    const timeInputString = ref('');
-    const store = useMobileEditingStore();
-    if (props?.datavalue.value.time) {
-      formatDatavaluePlain(store.statementPropertyId, props?.datavalue).then(
-        (data) => {
-          timeInputString.value = data.result;
-        },
-      );
-      // timeInputString.value = props.datavalue.value.time;
-    }
-
     function onPrecisionInput(value) {
       emit('update:value', {
         type: 'time',
@@ -114,14 +115,16 @@ module.exports = {
       });
     }
 
-    function onCalendarInput(value) {
-      emit('update:value', {
-        type: 'time',
-        value: {
-          ...props.datavalue.value,
-          calendarmodel: value,
+    // the actual time input
+    const timeInputString = ref('');
+    const store = useMobileEditingStore();
+    if (props?.datavalue.value.time) {
+      formatDatavaluePlain(store.statementPropertyId, props?.datavalue).then(
+        (data) => {
+          timeInputString.value = data.result;
         },
-      });
+      );
+      // timeInputString.value = props.datavalue.value.time;
     }
 
     const api = new mw.Api();
