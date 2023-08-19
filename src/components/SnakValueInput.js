@@ -5,6 +5,7 @@ const {
   EntityValueInput,
   TimeValueInput,
   MonoLingualTextValueInput,
+  GlobeCoordinateValueInput,
 } = require('User:Zvpunry/components');
 
 module.exports = {
@@ -27,6 +28,7 @@ module.exports = {
     EntityValueInput,
     TimeValueInput,
     MonoLingualTextValueInput,
+    GlobeCoordinateValueInput,
   },
   props: ['datatype', 'value'],
   emits: ['update:value'],
@@ -65,6 +67,9 @@ module.exports = {
       }
       if (props.datatype === 'monolingualtext') {
         return 'MonoLingualTextValueInput';
+      }
+      if (props.datatype === 'globe-coordinate') {
+        return 'GlobeCoordinateValueInput';
       }
       return null;
     });
