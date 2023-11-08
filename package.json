@@ -19,6 +19,7 @@
   "dependencies": {
     "@wikimedia/codex": "^0.16.1",
     "m3api": "^0.8.0",
+    "pinia": "^2.1.7",
     "vue": "^3.3.4"
   }
 }

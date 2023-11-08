@@ -1,9 +1,9 @@
 const { createApp } = require('vue');
 import '../node_modules/@wikimedia/codex/dist/codex.style.css';
-const { MonoLingualTextValueInput } = require('../src/components');
+const { MEApp } = require('../src/MEApp.js');
 const i18nPlugin = require('./i18nPlugin');
 
-createApp(MonoLingualTextValueInput)
+createApp(MEApp)
   .use(i18nPlugin)
   .provide('monoLingualTextLanguages', {
     de: 'German',

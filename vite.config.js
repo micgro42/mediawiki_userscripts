@@ -1,5 +1,4 @@
-// import { defineConfig } from 'vite';
-const { defineConfig } = require('vite');
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import commonjs from 'vite-plugin-commonjs';
 
