@@ -2,6 +2,15 @@ const MWBot = require('mwbot');
 const fs = require('fs');
 
 async function main() {
+  const [ _nodeExecutable, _scriptName, ...args] = process.argv;
+  let apiUrl;
+  if ( args.length === 0) {
+      apiUrl = 'https://wikidata.beta.wmflabs.org/w/api.php';
+  } else if ( args.length > 1 || !(args[0].startsWith( '--apiUrl=' )) ) {
+      throw new Error('only the optional parameter `apiUrl` is supported!');
+  } else {
+      apiUrl = args[0].substring('--apiUrl='.length);
+  }
   const botName = process.env.BOT_USER;
   const botPass = process.env.BOT_PASS;
   const username = process.env.USER_NAME;
@@ -35,7 +44,7 @@ async function main() {
   }, {});
 
   const bot = new MWBot({
-    apiUrl: 'https://www.wikidata.org/w/api.php', // FIXME: make configurable?
+    apiUrl,
   });
 
   bot.setGlobalRequestOptions({
