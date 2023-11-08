@@ -1,15 +1,16 @@
-const MWBot = require('mwbot');
-const fs = require('fs');
+import fs from 'fs';
+import crypto from 'crypto';
+import Session from 'm3api/node.js';
 
 async function main() {
-  const [ _nodeExecutable, _scriptName, ...args] = process.argv;
+  const [_nodeExecutable, _scriptName, ...args] = process.argv;
   let apiUrl;
-  if ( args.length === 0) {
-      apiUrl = 'https://wikidata.beta.wmflabs.org/w/api.php';
-  } else if ( args.length > 1 || !(args[0].startsWith( '--apiUrl=' )) ) {
-      throw new Error('only the optional parameter `apiUrl` is supported!');
+  if (args.length === 0) {
+    apiUrl = 'https://wikidata.beta.wmflabs.org/w/api.php';
+  } else if (args.length > 1 || !args[0].startsWith('--apiUrl=')) {
+    throw new Error('only the optional parameter `apiUrl` is supported!');
   } else {
-      apiUrl = args[0].substring('--apiUrl='.length);
+    apiUrl = args[0].substring('--apiUrl='.length);
   }
   const botName = process.env.BOT_USER;
   const botPass = process.env.BOT_PASS;
@@ -23,7 +24,6 @@ async function main() {
     throw new Error('BOT_USER must start with USER_NAME!');
   }
 
-  const crypto = require('crypto');
   const filePrefix = 'src';
   const localFiles = await getFileList(filePrefix);
   console.log('Found number of local files:', localFiles.length);
@@ -43,32 +43,44 @@ async function main() {
     return carry;
   }, {});
 
-  const bot = new MWBot({
+  const session = new Session(
     apiUrl,
-  });
-
-  bot.setGlobalRequestOptions({
-    headers: {
-      'User-Agent':
-        'PersonalUserscriptUpdater/0.0 (https://github.com/micgro42/mediawiki_userscripts) mwbot/2.1.3',
+    {
+      formatversion: 2,
+      errorformat: 'plaintext',
     },
-  });
+    {
+      userAgent:
+        'PersonalUserscriptUpdater/0.0 (https://github.com/micgro42/mediawiki_userscripts) m3api/0.8/0',
+    },
+  );
 
   console.log('Logging in...');
-
-  await bot.loginGetEditToken({
-    username: botName,
-    password: botPass,
-  });
+  const loginResponse = await session.request(
+    {
+      action: 'login',
+      lgname: botName,
+      lgpassword: botPass,
+    },
+    {
+      method: 'POST',
+      tokenType: 'login',
+      tokenName: 'lgtoken',
+    },
+  );
+  if (loginResponse.login.result !== 'Success') {
+    console.log(loginResponse);
+    throw new Error('Login failed! 😭');
+  }
 
   console.log('Requesting file meta data...');
-  const pageRevisionMetaQueryResponse = await bot.request({
+  const pageRevisionMetaQueryResponse = await session.request({
     action: 'query',
     prop: 'revisions',
     rvprop: 'timestamp|slotsha1|user|comment',
+    rvslots: 'main',
     titles: Object.keys(localPageData).join('|'),
     format: 'json',
-    formatversion: 2,
   });
   const pagesMeta = pageRevisionMetaQueryResponse.query.pages;
 
@@ -79,7 +91,8 @@ async function main() {
         console.log(`Page ${pageName} does not exist yet`);
         return true;
       }
-      if (pageMeta.revisions[0].sha1 !== pageData.sha1) {
+
+      if (pageMeta.revisions[0].slots.main.sha1 !== pageData.sha1) {
         console.log(`Page ${pageName} has changed`);
         return true;
       }
@@ -93,21 +106,23 @@ async function main() {
   // update files that changed
   let index = 0;
   for (const [, pageData] of changedFiles) {
-    // const subPageName = filePath.substr(filePrefix.length + 1);
-    // const fullPageName = `User:${username}/${subPageName}`;
     index += 1;
     console.log(
       `Uploading ${index}/${changedFiles.length}: ${pageData.fullPageName}`,
     );
-
-    // const content = fs.readFileSync(filePath, 'utf8');
-    const response = await bot.edit(
-      pageData.fullPageName,
-      pageData.content,
-      'Uploaded from https://github.com/micgro42/mediawiki_userscripts',
-    );
-    console.log( response );  
-    await new Promise( resolve => setTimeout( resolve, 2000) );
+    const params = {
+      action: 'edit',
+      title: pageData.fullPageName,
+      text: pageData.content,
+      summary:
+        'Uploaded from https://github.com/micgro42/mediawiki_userscripts',
+    };
+    const response = await session.request(params, {
+      method: 'POST',
+      tokenType: 'csrf',
+    });
+    console.log(response);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 }
 
@@ -129,4 +144,4 @@ async function getFileList(dirName) {
   return files;
 }
 
-return main();
+main();
