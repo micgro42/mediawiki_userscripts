@@ -1,17 +1,22 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
-const { ref, computed, toRef, inject, watch, toRaw } = require( 'vue' );
-const { CdxDialog, CdxMessage, CdxButton, useModelWrapper } = require( '@wikimedia/codex' );
-const { useMobileEditingStore } = require( 'User:Zvpunry/MobileEditingStore.js' );
+const { ref, computed, toRef, inject, watch, toRaw } = require('vue');
 const {
-	EntityLookup,
-	RankSelector,
-	SnakTypeSelector,
-	SnakValueInput
-} = require( 'User:Zvpunry/components' );
+  CdxDialog,
+  CdxMessage,
+  CdxButton,
+  useModelWrapper,
+} = require('@wikimedia/codex');
+const { useMobileEditingStore } = require('User:Zvpunry/MobileEditingStore.js');
+const {
+  EntityLookup,
+  RankSelector,
+  SnakTypeSelector,
+  SnakValueInput,
+} = require('User:Zvpunry/components');
 
 module.exports = {
-	name: 'MEApp',
-	template: `
+  name: 'MEApp',
+  template: `
 	    <cdx-dialog
 	        v-model:open="open"
 	        title="Add a new Statement"
@@ -67,75 +72,73 @@ module.exports = {
 	        </template>
 	    </cdx-dialog>
 	`,
-    components: {
-        CdxDialog,
-        CdxMessage,
-        CdxButton,
-        EntityLookup,
-        RankSelector,
-        SnakTypeSelector,
-        SnakValueInput,
-    },
-    props: {},
-    emits: [
-        'update:open',
-        'save-name'
-    ],
-    setup( props, { emit } ) {
-    	const store = useMobileEditingStore();
-    	const statementData = inject('statementData');
-    	console.log(statementData);
-    	if ( statementData !== null ) {
-    		store.initFromData( statementData );
-    	}
-
-        const isSavingDisabled = computed( () => {
-        	return !store.statementPropertyId
-            	|| store.snaktype === 'value' && !store.datavalue;
-        } );
-
-        async function saveStatement() {
-            store.saveStatement().then(
-            	() => {
-            		// Success!
-            		window.location.reload();
-            	}
-            	// error already added to store
-            );
-        }
-
-        function toggleDialog() {
-        	store.isOpen ? store.close() : store.open ();
-        }
-        function onRankUpdate( newRank ) {
-        	store.rank = newRank;
-        }
-        function onSnakTypeUpdate ( newSnakType ) {
-        	store.snaktype = newSnakType;
-        }
-        function onSnakValueUpdate( newSnakValue ) {
-        	store.setDatavalue( newSnakValue );
-        }
-
-    	const open = ref(false);
-    	window.setTimeout(() => {
-    		open.value = true;
-    	}, 0);
-
-        function onStatementPropertySelected( propertyId ) {
-        	store.setStatementPropertyId( propertyId );
-        }
-        return {
-        	onStatementPropertySelected,
-        	onRankUpdate,
-        	onSnakTypeUpdate,
-        	onSnakValueUpdate,
-        	store,
-            open,
-            isSavingDisabled,
-            toggleDialog,
-            saveStatement
-        };
+  components: {
+    CdxDialog,
+    CdxMessage,
+    CdxButton,
+    EntityLookup,
+    RankSelector,
+    SnakTypeSelector,
+    SnakValueInput,
+  },
+  props: {},
+  emits: ['update:open', 'save-name'],
+  setup(props, { emit }) {
+    const store = useMobileEditingStore();
+    const statementData = inject('statementData');
+    console.log(statementData);
+    if (statementData !== null) {
+      store.initFromData(statementData);
     }
-};
 
+    const isSavingDisabled = computed(() => {
+      return (
+        !store.statementPropertyId ||
+        (store.snaktype === 'value' && !store.datavalue)
+      );
+    });
+
+    async function saveStatement() {
+      store.saveStatement().then(
+        () => {
+          // Success!
+          window.location.reload();
+        },
+        // error already added to store
+      );
+    }
+
+    function toggleDialog() {
+      store.isOpen ? store.close() : store.open();
+    }
+    function onRankUpdate(newRank) {
+      store.rank = newRank;
+    }
+    function onSnakTypeUpdate(newSnakType) {
+      store.snaktype = newSnakType;
+    }
+    function onSnakValueUpdate(newSnakValue) {
+      store.setDatavalue(newSnakValue);
+    }
+
+    const open = ref(false);
+    window.setTimeout(() => {
+      open.value = true;
+    }, 0);
+
+    function onStatementPropertySelected(propertyId) {
+      store.setStatementPropertyId(propertyId);
+    }
+    return {
+      onStatementPropertySelected,
+      onRankUpdate,
+      onSnakTypeUpdate,
+      onSnakValueUpdate,
+      store,
+      open,
+      isSavingDisabled,
+      toggleDialog,
+      saveStatement,
+    };
+  },
+};
