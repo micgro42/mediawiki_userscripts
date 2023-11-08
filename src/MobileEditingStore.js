@@ -2,26 +2,6 @@
 const { defineStore } = require( 'pinia' );
 const { loadEntity } = require( 'User:Zvpunry/CachingReadingEntityRepository.js' );
 const { writeNewStatement, changeExistingStatement } = require( 'User:Zvpunry/repositories/StatementWritingRepository.js' );
-const { formatDatavalue } = require( 'User:Zvpunry/repositories/DatavalueFormattingRepository.js' );
-
-// TODO: extract that to somewhere, also in EntityLookup
-function debounce(cb, timeout) {
-	let timeoutId = null;
-	return function (...params) {
-		return new Promise( function (resolve) {
-		if (timeoutId !== null ) {
-			clearTimeout(timeoutId);
-			timeoutId = null;
-		}
-		timeoutId = setTimeout(function() {
-			timeoutId = null;
-			resolve(cb(...params));
-		}, timeout);
-		});
-	};
-}
-
-const formatMainSnakDatavalue = debounce(formatDatavalue, 500);
 
 const useMobileEditingStore = defineStore('MobileEditing', {
   state: () => ({
@@ -100,7 +80,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
   			this.formattedDatavalueHTML = '';
   			return;
   		}
-  		formatMainSnakDatavalue( this.statementPropertyId, newDatavalue ).then(
+  		this.debouncedFormatDatavalue( this.statementPropertyId, newDatavalue ).then(
   			(data) => {
   				if (data.result) {
   					this.formattedDatavalueHTML = data.result;
