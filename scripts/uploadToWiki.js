@@ -75,7 +75,7 @@ async function main() {
   const changedFiles = Object.entries(localPageData).filter(
     ([pageName, pageData]) => {
       const pageMeta = pagesMeta.find((page) => page.title === pageName);
-      if (!pageMeta) {
+      if (!pageMeta || pageMeta.missing) {
         console.log(`Page ${pageName} does not exist yet`);
         return true;
       }
