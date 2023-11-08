@@ -91,20 +91,24 @@ async function main() {
   console.log('Found number of changed files:', changedFiles.length);
 
   // update files that changed
-  changedFiles.forEach(async ([, pageData], index, allFiles) => {
+  let index = 0;
+  for (const [, pageData] of changedFiles) {
     // const subPageName = filePath.substr(filePrefix.length + 1);
     // const fullPageName = `User:${username}/${subPageName}`;
+    index += 1;
     console.log(
-      `Uploading ${index + 1}/${allFiles.length}: ${pageData.fullPageName}`,
+      `Uploading ${index}/${changedFiles.length}: ${pageData.fullPageName}`,
     );
 
     // const content = fs.readFileSync(filePath, 'utf8');
-    await bot.edit(
+    const response = await bot.edit(
       pageData.fullPageName,
       pageData.content,
       'Uploaded from https://github.com/micgro42/mediawiki_userscripts',
     );
-  });
+    console.log( response );  
+    await new Promise( resolve => setTimeout( resolve, 2000) );
+  }
 }
 
 async function getFileList(dirName) {
