@@ -14,6 +14,7 @@ jobs:
         run: yarn install
 
       - name: Deploy 🚀
+        if: false # GitHub affected global Open Proxy block 😢
         env:
           BOT_USER: ${{ secrets.BOT_USER }}
           BOT_PASS: ${{ secrets.BOT_PASS }}
