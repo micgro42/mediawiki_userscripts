@@ -1,0 +1,25 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+install:
+  stage: build
+  script:
+    - yarn install
+  artifacts:
+    paths:
+      - node_modules
+
+publishToTest:
+  stage: deploy
+  script:
+    - yarn deployAll -- --apiUrl=https://test.wikidata.org/w/api.php
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+  artifacts:
+    paths:
+      - node_modules
+
+
