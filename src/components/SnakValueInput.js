@@ -1,5 +1,5 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
-const { computed } = require('vue');
+const { computed, inject } = require('vue');
 const StringValueInput = require('User:Zvpunry/components/StringValueInput.js');
 const EntityValueInput = require('User:Zvpunry/components/EntityValueInput.js');
 const TimeValueInput = require('User:Zvpunry/components/TimeValueInput.js');
@@ -9,8 +9,8 @@ const GlobeCoordinateValueInput = require('User:Zvpunry/components/GlobeCoordina
 module.exports = {
   name: 'SnakValueInput',
   template: `<div>
-    <p>datatype: {{ datatype }}</p>
-    <pre>{{ value }}</pre>
+    <p v-if="!isProduction">datatype: {{ datatype }}</p>
+    <pre v-if="!isProduction">{{ value }}</pre>
     <p v-if="!datatype"><em>Loading Property data... </em>⏳</p>
     <component
       v-else-if="valueInputComponent"
@@ -35,6 +35,7 @@ module.exports = {
       console.log('SnakValueInput onValueUpdate', props.datatype, newValue);
       emit('update:value', newValue);
     }
+    const isProduction = inject('isProduction', false);
 
     const stringValueInputTypes = [
       'string',
@@ -73,6 +74,7 @@ module.exports = {
     });
 
     return {
+      isProduction,
       onValueUpdate,
       valueInputComponent,
     };

@@ -5,6 +5,7 @@ const i18nPlugin = require('./i18nPlugin');
 
 createApp(MEApp)
   .use(i18nPlugin)
+  .provide('isProduction', false)
   .provide('monoLingualTextLanguages', {
     de: 'German',
     'de-at': 'Austrian German',
