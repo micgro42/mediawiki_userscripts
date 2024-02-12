@@ -53,9 +53,9 @@ module.exports = {
 	        		<div v-html="store.formattedDatavalueHTML"></div>
 	        	</div>
 	        	<h3>Qualifiers</h3>
-	        	<em>Coming soon™️</em>
-	        	<h3>Refernces</h3>
-	        	<em>Coming soon™️</em>
+            <em>Coming soon™</em>
+            <h3>References</h3>
+            <em>Coming soon™</em>
 	        </div>
 	        <template #footer>
 		        <cdx-message
