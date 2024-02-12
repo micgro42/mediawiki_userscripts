@@ -1,12 +1,5 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
 const { defineStore } = require('pinia');
-const {
-  loadEntity,
-} = require('User:Zvpunry/CachingReadingEntityRepository.js');
-const {
-  writeNewStatement,
-  changeExistingStatement,
-} = require('User:Zvpunry/repositories/StatementWritingRepository.js');
 
 const useMobileEditingStore = defineStore('MobileEditing', {
   state: () => ({
@@ -36,7 +29,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
       if (state.statementPropertyData === null) {
         return `(${state.statementPropertyId})`;
       }
-      const userLang = mw.config.get('wgUserLanguage');
+      const userLang = state.mwConfig.wgUserLanguage;
       if (state.statementPropertyData.labels[userLang]?.value) {
         return (
           state.statementPropertyData.labels[userLang].value +
@@ -71,9 +64,11 @@ const useMobileEditingStore = defineStore('MobileEditing', {
       this.rank = statementData.rank;
       this.snaktype = statementData.mainsnak.snaktype;
       this.statementPropertyId = statementData.mainsnak.property;
-      loadEntity(this.statementPropertyId).then((entityData) => {
-        this.statementPropertyData = entityData;
-      });
+      this.readingEntityRepository
+        .loadEntity(this.statementPropertyId)
+        .then((entityData) => {
+          this.statementPropertyData = entityData;
+        });
       if (this.snaktype === 'value') {
         this.setDatavalue(statementData.mainsnak.datavalue);
       }
@@ -116,7 +111,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
     },
     setStatementPropertyId(propertyId) {
       this.statementPropertyId = propertyId;
-      loadEntity(propertyId).then((entityData) => {
+      this.readingEntityRepository.loadEntity(propertyId).then((entityData) => {
         this.statementPropertyData = entityData;
       });
       this.rank = 'normal';
@@ -126,7 +121,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
       // FIXME: this should probably be in the store!
       const currentEntityId = mw.config.get('wbEntityId');
       if (this.id === null) {
-        return writeNewStatement(
+        return this.statementWritingRepository.writeNewStatement(
           currentEntityId,
           this.statementPropertyId,
           this.rank,
@@ -140,7 +135,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
           },
         );
       }
-      return changeExistingStatement(
+      return this.statementWritingRepository.changeExistingStatement(
         currentEntityId,
         this.statementPropertyId,
         this.id,
