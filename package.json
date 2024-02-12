@@ -13,7 +13,7 @@
     "vite-plugin-commonjs": "^0.8.2"
   },
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite",
     "deployAll": "node scripts/uploadToWiki.js"
   },
   "dependencies": {
