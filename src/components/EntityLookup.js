@@ -33,18 +33,12 @@ module.exports = {
   },
   emits: ['selected'],
   setup(props, { emit }) {
-    const api = inject('api');
+    const searchEntities = inject('searchEntities');
     const currentSearchTerm = ref('');
     const menuItems = ref([]);
     const selection = ref(null);
     async function searchOption(newInput) {
-      return await api.get({
-        action: 'wbsearchentities',
-        search: newInput,
-        language: 'en',
-        uselang: 'en',
-        type: props.type,
-      });
+      return searchEntities(newInput, props.type);
     }
     const debouncedSearch = debounce(searchOption, 500);
     async function onNewInput(newInput) {

@@ -4,7 +4,11 @@ import '../node_modules/@wikimedia/codex/dist/codex.style.css';
 const MEApp = require('../src/MEApp.js');
 const i18nPlugin = require('./i18nPlugin');
 const { debounce } = require('../src/util.js');
-const { formatDatavalue } = require('./DatavalueFormattingRepository.js');
+const {
+  formatDatavalue,
+  formatDatavaluePlain,
+} = require('./DatavalueFormattingRepository.js');
+const { searchEntities } = require('./SearchEntitiesRepository.js');
 const { loadEntity } = require('./ReadingEntityRepository.js');
 const {
   writeNewStatement,
@@ -30,6 +34,9 @@ app.use(pinia);
 
 app
   .use(i18nPlugin)
+  .provide('statementData', null)
+  .provide('searchEntities', searchEntities)
+  .provide('formatDatavaluePlain', formatDatavaluePlain)
   .provide('isProduction', false)
   .provide('monoLingualTextLanguages', {
     de: 'German',

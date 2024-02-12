@@ -2,9 +2,6 @@
 const { CdxTextInput, CdxField, CdxSelect } = require('@wikimedia/codex');
 const { ref, computed, inject } = require('vue');
 const { debounce } = require('User:Zvpunry/util.js');
-const {
-  formatDatavaluePlain,
-} = require('User:Zvpunry/repositories/DatavalueFormattingRepository.js');
 const { useMobileEditingStore } = require('User:Zvpunry/MobileEditingStore.js');
 
 const additionalPrecisions = [
@@ -128,6 +125,7 @@ module.exports = {
     // the actual coordinate input
     const coordinateInputString = ref('');
     const store = useMobileEditingStore();
+    const formatDatavaluePlain = inject('formatDatavaluePlain');
     if (props.datavalue?.value.latitude) {
       formatDatavaluePlain(store.statementPropertyId, props.datavalue).then(
         (data) => {
