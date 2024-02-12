@@ -1,12 +1,10 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
 const { computed } = require('vue');
-const {
-  StringValueInput,
-  EntityValueInput,
-  TimeValueInput,
-  MonoLingualTextValueInput,
-  GlobeCoordinateValueInput,
-} = require('User:Zvpunry/components');
+const StringValueInput = require('User:Zvpunry/components/StringValueInput.js');
+const EntityValueInput = require('User:Zvpunry/components/EntityValueInput.js');
+const TimeValueInput = require('User:Zvpunry/components/TimeValueInput.js');
+const MonoLingualTextValueInput = require('User:Zvpunry/components/MonoLingualTextValueInput.js');
+const GlobeCoordinateValueInput = require('User:Zvpunry/components/GlobeCoordinateValueInput.js');
 
 module.exports = {
   name: 'SnakValueInput',

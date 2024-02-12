@@ -1,6 +1,6 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
 const { computed } = require('vue');
-const { EntityLookup } = require('User:Zvpunry/components');
+const EntityLookup = require('User:Zvpunry/components/EntityLookup.js');
 
 module.exports = {
   name: 'EntityValueInput',
