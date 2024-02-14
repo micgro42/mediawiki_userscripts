@@ -103,7 +103,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
           }
         },
         (...params) => {
-          console.warning('formatMainSnakDatavalue rejected!');
+          console.warn('formatMainSnakDatavalue rejected!');
           this.formattedDatavalueHTML = '';
           console.error(...params);
         },
