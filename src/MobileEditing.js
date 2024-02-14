@@ -3,18 +3,18 @@
  * A Work-In-Progress user script (wannabe gadget) to add proper mobile editing for statements to Wikidata
  *
  * TODO Next:
- *   [ ]: add support for qualifiers
  *   [ ]: add support for quantity
+ *
+ * TODO MS1 "Publish":
  *   [ ]: add full support for globe coordinate
  *      [ ]: figure out how to make the map fully live
  *      [ ]: add Item-Lookup for globe
- *
- * TODO MS1 "Publish":
+ *   [ ]: support for temporary accounts
+ *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
  *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
  *   [ ]: add support for deleting statements
  *   [ ]: fix "bouncing" of overall Dialog as values are edited -> formatting!
  *   [ ]: remove datavalue <pre>
- *   [ ]: EntityLookup: call wbsearchentities with UI language, not always english
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
  *   [ ]: show current entity label somewhere
  *   [ ]: reduce console.log noise
@@ -23,6 +23,7 @@
  *   [ ]: write proper documentation into this file
  *
  * TODO: After:
+ *   [ ]: add support for qualifiers
  *   [ ]: add support for references
  *   [ ]: Figure out why throwing in preloadDependency(...) does not halt script execution
  *   [ ]: add support for quick-buttons that skip property-selection (use localstorage!)
@@ -60,6 +61,7 @@
  * https://phabricator.wikimedia.org/T271500: Not possible to search for a sense when adding a statement
  * https://phabricator.wikimedia.org/T344543: Setting initial menu items in Lookups doesn't work (PropertySuggester)
  * TBC: setting initial value for Codex Lookup is convoluted
+ * https://phabricator.wikimedia.org/T357024: Add redirect-related parameters to API modules and return redirect URL (if any) in Wikibase editing APIs
  *
  * Upsteam issues done:
  * https://phabricator.wikimedia.org/T344542: Codex Lookup dropdown being "stuck"
