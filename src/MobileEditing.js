@@ -14,7 +14,6 @@
  *   [ ]: add support for deleting statements
  *   [ ]: fix "bouncing" of overall Dialog as values are edited -> formatting!
  *   [ ]: remove datavalue <pre>
- *   [ ]: EntityLookup: load-more behavior
  *   [ ]: EntityLookup: call wbsearchentities with UI language, not always english
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
  *   [ ]: show current entity label somewhere
@@ -36,6 +35,7 @@
  *
  *
  * DONE:
+ *   [x]: EntityLookup: load-more behavior
  *   [x]: add support for monolingual text
  *   [x]: have value input components emit a update:datavalue event for consistency
  *   [x]: make sure entities are properly unselected

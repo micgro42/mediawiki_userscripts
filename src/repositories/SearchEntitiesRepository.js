@@ -5,7 +5,7 @@ class SearchEntitiesRepository {
     this.langCode = langCode;
   }
 
-  async searchEntities(searchText, type) {
+  async searchEntities(searchText, type, offset) {
     const params = {
       action: 'wbsearchentities',
       search: searchText,
@@ -14,6 +14,10 @@ class SearchEntitiesRepository {
       type: type,
       limit: 10,
     };
+
+    if (offset) {
+      params.continue = offset;
+    }
 
     return this.api.get(params);
   }

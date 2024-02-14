@@ -13,8 +13,10 @@ module.exports = {
           :placeholder="placeholder"
           :menu-items="menuItems"
           v-model:selected="selection"
+          :menuConfig="menuConfig"
           @input="onNewInput"
           @update:selected="onSelection"
+					@load-more="onLoadMore"
         ></cdx-lookup>
         <template #label>
           {{ label }}
@@ -37,8 +39,12 @@ module.exports = {
     const currentSearchTerm = ref('');
     const menuItems = ref([]);
     const selection = ref(null);
-    async function searchOption(newInput) {
-      return searchEntitiesRepository.searchEntities(newInput, props.type);
+    async function searchOption(newInput, offset) {
+      return searchEntitiesRepository.searchEntities(
+        newInput,
+        props.type,
+        offset,
+      );
     }
     const debouncedSearch = debounce(searchOption, 500);
     async function onNewInput(newInput) {
@@ -66,6 +72,37 @@ module.exports = {
       menuItems.value = requestResults;
     }
 
+    function deduplicateResults(results) {
+      const seen = new Set(menuItems.value.map((result) => result.value));
+      return results.filter((result) => !seen.has(result.value));
+    }
+
+    function onLoadMore() {
+      if (!currentSearchTerm.value) {
+        return;
+      }
+
+      searchOption(currentSearchTerm.value, menuItems.value.length).then(
+        (data) => {
+          if (!data.search || data.search.length === 0) {
+            return;
+          }
+
+          const results = data.search.map((result) => {
+            return {
+              label: result.label,
+              value: result.id,
+              description: result.description,
+            };
+          });
+
+          // Update menuItems.
+          const deduplicatedResults = deduplicateResults(results);
+          menuItems.value.push(...deduplicatedResults);
+        },
+      );
+    }
+
     const { selectedEntityId: initialEntityId } = props;
     const isInitialEntitySearching = ref(false);
     if (initialEntityId) {
@@ -87,12 +124,17 @@ module.exports = {
       emit('selected', value);
     }
 
+    const menuConfig = {
+      visibleItemLimit: 6,
+    };
     console.log('User:Zvpunry/components/EntityLookup.js setup done');
     return {
       menuItems,
       onNewInput,
       onSelection,
+      onLoadMore,
       selection,
+      menuConfig,
       isInitialEntitySearching,
     };
   },
