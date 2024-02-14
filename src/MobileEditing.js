@@ -18,7 +18,6 @@
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
  *   [ ]: show current entity label somewhere
  *   [ ]: reduce console.log noise
- *   [ ]: Bug: Changing _only_ the rank does not seem to work? Changing rank and datavalue works, though.
  *   [ ]: don't to anything on pages for non-existing entities
  *   [ ]: replace as much copy as possible with i18n message
  *   [ ]: write proper documentation into this file
@@ -35,6 +34,7 @@
  *
  *
  * DONE:
+ *   [x]: Bug: Changing _only_ the rank does not seem to work? Changing rank and datavalue works, though.
  *   [x]: EntityLookup: load-more behavior
  *   [x]: add support for monolingual text
  *   [x]: have value input components emit a update:datavalue event for consistency

@@ -14,14 +14,14 @@ function getNewClaimGUID(entityId) {
 const summary = 'Made with [[User:Zvpunry/MobileEditing.js]]';
 const api = new mw.Api(); // inject?
 
-function writeApi(claim) {
+function writeApi(claim, extraParams = {}) {
   const params = api.assertCurrentUser({
     action: 'wbsetclaim',
-    ignoreduplicatemainsnak: true,
     claim: JSON.stringify(claim),
     summary,
     formatversion: 2,
     format: 'json',
+    ...extraParams,
     // tags?
   });
   return api.postWithEditToken(params);
@@ -46,7 +46,7 @@ function writeNewStatement(entityId, propertyId, rank, snaktype, datavalue) {
     claim.mainsnak.datavalue = datavalue;
   }
 
-  return writeApi(claim);
+  return writeApi(claim, { ignoreduplicatemainsnak: true });
 
   // const params = api.assertCurrentUser( {
   // 	action: 'wbsetclaim',
