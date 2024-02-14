@@ -8,7 +8,7 @@ const {
   formatDatavalue,
   formatDatavaluePlain,
 } = require('./DatavalueFormattingRepository.js');
-const { searchEntities } = require('./SearchEntitiesRepository.js');
+const SearchEntitiesRepository = require('../src/repositories/SearchEntitiesRepository.js');
 const { loadEntity } = require('./ReadingEntityRepository.js');
 const {
   writeNewStatement,
@@ -18,6 +18,7 @@ const DevApiAdapter = require('./DevApiAdapter.js');
 const ValueParsingRepository = require('../src/repositories/ValueParsingRepository.js');
 
 const devApiAdapter = new DevApiAdapter();
+const searchEntitiesRepository = new SearchEntitiesRepository(devApiAdapter, 'en');
 const valueParsingRepository = new ValueParsingRepository(devApiAdapter);
 
 const app = createApp(MEApp);
@@ -40,7 +41,7 @@ app.use(pinia);
 app
   .use(i18nPlugin)
   .provide('statementData', null)
-  .provide('searchEntities', searchEntities)
+  .provide('searchEntitiesRepository', searchEntitiesRepository)
   .provide('formatDatavaluePlain', formatDatavaluePlain)
   .provide('valueParsingRepository', valueParsingRepository)
   .provide('isProduction', false)

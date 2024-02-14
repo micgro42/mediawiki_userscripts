@@ -33,12 +33,12 @@ module.exports = {
   },
   emits: ['selected'],
   setup(props, { emit }) {
-    const searchEntities = inject('searchEntities');
+    const searchEntitiesRepository = inject('searchEntitiesRepository');
     const currentSearchTerm = ref('');
     const menuItems = ref([]);
     const selection = ref(null);
     async function searchOption(newInput) {
-      return searchEntities(newInput, props.type);
+      return searchEntitiesRepository.searchEntities(newInput, props.type);
     }
     const debouncedSearch = debounce(searchOption, 500);
     async function onNewInput(newInput) {

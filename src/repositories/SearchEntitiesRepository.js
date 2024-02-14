@@ -1,14 +1,22 @@
-// This file is maintained at https://github.com/micgro42/mediawiki_userscripts
-const api = new mw.Api();
-// FIXME: turn this into a class and inject actual ui language in constructor
-async function searchEntities(searchText, type) {
-  return await api.get({
-    action: 'wbsearchentities',
-    search: searchText,
-    language: 'en',
-    uselang: 'en',
-    type: type,
-  });
+// This file is maintained at https://gitlab.wikimedia.org/migr/mediawiki_userscripts
+class SearchEntitiesRepository {
+  constructor(api, langCode) {
+    this.api = api;
+    this.langCode = langCode;
+  }
+
+  async searchEntities(searchText, type) {
+    const params = {
+      action: 'wbsearchentities',
+      search: searchText,
+      language: this.langCode,
+      uselang: this.langCode,
+      type: type,
+      limit: 10,
+    };
+
+    return this.api.get(params);
+  }
 }
 
-module.exports = { searchEntities };
+module.exports = SearchEntitiesRepository;

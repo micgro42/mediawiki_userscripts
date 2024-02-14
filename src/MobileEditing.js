@@ -174,9 +174,7 @@ jQuery(async () => {
       formatDatavaluePlain,
     } = require('User:Zvpunry/repositories/DatavalueFormattingRepository.js');
     const { debounce } = require('User:Zvpunry/util.js');
-    const {
-      searchEntities,
-    } = require('User:Zvpunry/repositories/SearchEntitiesRepository.js');
+    const SearchEntitiesRepository = require('User:Zvpunry/repositories/SearchEntitiesRepository.js');
     const {
       loadEntity,
     } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
@@ -187,6 +185,10 @@ jQuery(async () => {
     const ValueParsingRepository = require('User:Zvpunry/repositories/ValueParsingRepository.js');
 
     const api = new mw.Api();
+    const searchEntitiesRepository = new SearchEntitiesRepository(
+      api,
+      mw.config.get('wgUserLanguage'),
+    );
     const valueParsingRepository = new ValueParsingRepository(api);
 
     const pinia = createPinia();
@@ -206,7 +208,7 @@ jQuery(async () => {
       mwConfig: { wgUserLanguage: mw.config.get('wgUserLanguage') },
     }));
     app.use(pinia);
-    app.provide('searchEntities', searchEntities);
+    app.provide('searchEntitiesRepository', searchEntitiesRepository);
     app.provide('valueParsingRepository', valueParsingRepository);
     app.provide('formatDatavaluePlain', formatDatavaluePlain);
     app.provide('isProduction', host === 'm.wikidata.org');
