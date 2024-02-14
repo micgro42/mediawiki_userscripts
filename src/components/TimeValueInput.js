@@ -127,22 +127,11 @@ module.exports = {
       );
     }
 
-    const api = new mw.Api();
-
-    function parseValueWithApi(value) {
-      return api
-        .get({
-          action: 'wbparsevalue',
-          datatype: 'time',
-          format: 'json',
-          values: value,
-          // lang:
-          // options {lang:"en"}
-        })
-        .catch((errorCode, errorData) => Promise.reject(errorData));
-    }
-
-    const debouncedParseValue = debounce(parseValueWithApi, 500);
+    const valueParsingRepository = inject('valueParsingRepository');
+    const debouncedParseValue = debounce(
+      (...params) => valueParsingRepository.parseValueToHTML(...params),
+      500,
+    );
     const errorMessages = ref(null);
 
     function onInput(value) {
@@ -152,7 +141,7 @@ module.exports = {
         return;
       }
 
-      debouncedParseValue(value).then(
+      debouncedParseValue(value, 'time').then(
         ({ results, warnings }) => {
           if (warnings) {
             warnings.forEach((warning) => console.warn(warning));

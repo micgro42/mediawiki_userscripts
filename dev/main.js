@@ -14,6 +14,11 @@ const {
   writeNewStatement,
   changeExistingStatement,
 } = require('./StatementWritingRepository.js');
+const DevApiAdapter = require('./DevApiAdapter.js');
+const ValueParsingRepository = require('../src/repositories/ValueParsingRepository.js');
+
+const devApiAdapter = new DevApiAdapter();
+const valueParsingRepository = new ValueParsingRepository(devApiAdapter);
 
 const app = createApp(MEApp);
 const pinia = createPinia();
@@ -37,6 +42,7 @@ app
   .provide('statementData', null)
   .provide('searchEntities', searchEntities)
   .provide('formatDatavaluePlain', formatDatavaluePlain)
+  .provide('valueParsingRepository', valueParsingRepository)
   .provide('isProduction', false)
   .provide('monoLingualTextLanguages', {
     de: 'German',
