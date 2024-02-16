@@ -33,12 +33,13 @@ module.exports = {
     placeholder: String,
     selectedEntityId: String, // can be null
   },
-  emits: ['selected'],
+  emits: ['selected', 'selectedResult'],
   setup(props, { emit }) {
     const searchEntitiesRepository = inject('searchEntitiesRepository');
     const currentSearchTerm = ref('');
     const menuItems = ref([]);
     const selection = ref(null);
+    const searchResults = new Map();
     async function searchOption(newInput, offset) {
       return searchEntitiesRepository.searchEntities(
         newInput,
@@ -67,6 +68,7 @@ module.exports = {
           description: result.description,
           value: result.id,
         });
+        searchResults.set(result.id, result);
       });
 
       menuItems.value = requestResults;
@@ -89,6 +91,7 @@ module.exports = {
           }
 
           const results = data.search.map((result) => {
+            searchResults.set(result.id, result);
             return {
               label: result.label,
               value: result.id,
@@ -122,6 +125,8 @@ module.exports = {
     function onSelection(value) {
       console.log('onSelection', value);
       emit('selected', value);
+      // some need the full result
+      emit('selectedResult', value ? searchResults.get(value) : value);
     }
 
     const menuConfig = {
