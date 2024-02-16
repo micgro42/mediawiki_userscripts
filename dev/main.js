@@ -18,8 +18,11 @@ const DevApiAdapter = require('./DevApiAdapter.js');
 const ValueParsingRepository = require('../src/repositories/ValueParsingRepository.js');
 
 const devApiAdapter = new DevApiAdapter();
-const searchEntitiesRepository = new SearchEntitiesRepository(devApiAdapter, 'en');
-const valueParsingRepository = new ValueParsingRepository(devApiAdapter);
+const searchEntitiesRepository = new SearchEntitiesRepository(
+  devApiAdapter,
+  'en',
+);
+const valueParsingRepository = new ValueParsingRepository(devApiAdapter, 'en');
 
 const app = createApp(MEApp);
 const pinia = createPinia();

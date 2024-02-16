@@ -1,6 +1,7 @@
 class ValueParsingRepository {
-  constructor(api) {
+  constructor(api, langCode) {
     this.api = api;
+    this.langCode = langCode;
   }
 
   async parseValueToHTML(value, datatype) {
@@ -10,8 +11,9 @@ class ValueParsingRepository {
         datatype: datatype,
         format: 'json',
         values: value,
-        // lang:
-        // options {lang:"en"}
+        options: JSON.stringify({
+          lang: this.langCode,
+        }),
       })
       .catch((errorCode, errorData) => {
         if (!errorData) {

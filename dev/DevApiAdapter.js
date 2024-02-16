@@ -9,6 +9,7 @@ class DevApiAdapter {
         formatversion: 2,
         errorformat: 'plaintext',
         origin: '*',
+        uselang: 'en',
       },
       {
         userAgent:

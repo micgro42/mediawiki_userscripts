@@ -194,11 +194,15 @@ jQuery(async () => {
     const ValueParsingRepository = require('User:Zvpunry/repositories/ValueParsingRepository.js');
 
     const api = new mw.Api();
+    const wgUserLanguage = mw.config.get('wgUserLanguage');
     const searchEntitiesRepository = new SearchEntitiesRepository(
       api,
-      mw.config.get('wgUserLanguage'),
+      wgUserLanguage,
     );
-    const valueParsingRepository = new ValueParsingRepository(api);
+    const valueParsingRepository = new ValueParsingRepository(
+      api,
+      wgUserLanguage,
+    );
 
     const pinia = createPinia();
     pinia.use(({ store }) => {
@@ -214,7 +218,7 @@ jQuery(async () => {
       });
     });
     pinia.use(() => ({
-      mwConfig: { wgUserLanguage: mw.config.get('wgUserLanguage') },
+      mwConfig: { wgUserLanguage },
     }));
     app.use(pinia);
     app.provide('searchEntitiesRepository', searchEntitiesRepository);
