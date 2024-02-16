@@ -194,8 +194,15 @@ jQuery(async () => {
     } = require('User:Zvpunry/repositories/StatementWritingRepository.js');
     const ValueParsingRepository = require('User:Zvpunry/repositories/ValueParsingRepository.js');
 
-    const api = new mw.Api();
     const wgUserLanguage = mw.config.get('wgUserLanguage');
+    const api = new mw.Api({
+      parameters: {
+        format: 'json',
+        formatversion: 2,
+        errorformat: 'plaintext', // FIXME: is this actually what we want?
+        uselang: wgUserLanguage,
+      },
+    });
     const searchEntitiesRepository = new SearchEntitiesRepository(
       api,
       wgUserLanguage,
