@@ -121,37 +121,41 @@ const useMobileEditingStore = defineStore('MobileEditing', {
       // FIXME: this should probably be in the store!
       const currentEntityId = mw.config.get('wbEntityId');
       if (this.id === null) {
-        return this.statementWritingRepository.writeNewStatement(
+        return this.statementWritingRepository
+          .writeNewStatement(
+            currentEntityId,
+            this.statementPropertyId,
+            this.rank,
+            this.snaktype,
+            this.datavalue,
+          )
+          .then(
+            () => {},
+            (code, data) => {
+              this.lastApiErrorText = data.error.info;
+              throw new Error(code);
+            },
+          );
+      }
+      return this.statementWritingRepository
+        .changeExistingStatement(
           currentEntityId,
           this.statementPropertyId,
+          this.id,
           this.rank,
           this.snaktype,
           this.datavalue,
-        ).then(
+          this.qualifiers,
+          this.qualifiersOrder,
+          this.references,
+        )
+        .then(
           () => {},
           (code, data) => {
             this.lastApiErrorText = data.error.info;
             throw new Error(code);
           },
         );
-      }
-      return this.statementWritingRepository.changeExistingStatement(
-        currentEntityId,
-        this.statementPropertyId,
-        this.id,
-        this.rank,
-        this.snaktype,
-        this.datavalue,
-        this.qualifiers,
-        this.qualifiersOrder,
-        this.references,
-      ).then(
-        () => {},
-        (code, data) => {
-          this.lastApiErrorText = data.error.info;
-          throw new Error(code);
-        },
-      );
     },
     open() {
       this.isOpen = true;
