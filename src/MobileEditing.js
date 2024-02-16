@@ -9,7 +9,6 @@
  *   [ ]: add full support for globe coordinate
  *      [ ]: figure out how to make the map fully live
  *      [ ]: add Item-Lookup for globe
- *   [ ]: support for temporary accounts
  *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
  *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
  *   [ ]: add support for deleting statements
@@ -32,6 +31,7 @@
  *   [ ]: add placeholder from examples of selected property (see "Wikidata property example" (P1855))
  *   [ ]: figure out how to use the cdxIconEdit in the edit buttons
  *   [ ]: prevent/improve edit conflicts by somehow making use of baserevid
+ *   [ ]: support for temporary accounts (if ever enabled for IPs)
  *
  *
  * DONE:
