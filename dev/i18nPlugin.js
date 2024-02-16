@@ -5,6 +5,7 @@ const messages = {
   'wikibase-snakview-variations-somevalue-label': 'unknown value',
   'wikibase-snakview-variations-novalue-label': 'no value',
   'wikibase-snakview-snaktypeselector-value': 'custom value',
+  'wikibase-publish': 'publish',
   'valueview-expertextender-languageselector-label': 'Language (mandatory):',
   'valueview-expert-globecoordinateinput-precision': 'Precision:',
   'valueview-expert-globecoordinateinput-nullprecision': 'unspecified',
@@ -21,6 +22,14 @@ const messages = {
     'to 1/1000 of an arcsecond',
   'valueview-expert-globecoordinateinput-precisionlabel-tenthousandth-of-arcsecond':
     "1/10000'",
+  'valueview-expert-timeinput-precision': 'Precision:',
+  'valueview-expert-timeinput-precision-day': 'day',
+  'valueview-expert-timeinput-precision-month': 'month',
+  'valueview-expert-timeinput-precision-year': 'year',
+  'valueview-expert-timeinput-calendar': 'Calendar:',
+  'valueview-expert-timevalue-calendar-julian': 'Julian',
+  'valueview-expert-timevalue-calendar-gregorian': 'Gregorian',
+  'valueview-preview-label': 'will be displayed as:',
 };
 
 function escape(s) {
