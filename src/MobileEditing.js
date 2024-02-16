@@ -35,6 +35,7 @@
  *
  *
  * DONE:
+ *   [x]: don't load bridge on protected pages
  *   [x]: Bug: Changing _only_ the rank does not seem to work? Changing rank and datavalue works, though.
  *   [x]: EntityLookup: load-more behavior
  *   [x]: add support for monolingual text
@@ -79,6 +80,12 @@ jQuery(async () => {
     console.log(
       'Not an Entity page, not adding mobile editing. Actual title: ' +
         mw.config.get('wgTitle'),
+    );
+    return;
+  }
+  if (!mw.config.get('wgRelevantPageIsProbablyEditable')) {
+    console.log(
+      'Page is not editable (`wgRelevantPageIsProbablyEditable` is not true), not adding mobile editing.',
     );
     return;
   }
