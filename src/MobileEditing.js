@@ -179,10 +179,7 @@ jQuery(async () => {
     const app = Vue.createMwApp(Main);
     const { markRaw } = require('vue');
     const { createPinia } = require('pinia');
-    const {
-      formatDatavalue,
-      formatDatavaluePlain,
-    } = require('User:Zvpunry/repositories/DatavalueFormattingRepository.js');
+    const DatavalueFormattingRepository = require('User:Zvpunry/repositories/DatavalueFormattingRepository.js');
     const { debounce } = require('User:Zvpunry/util.js');
     const SearchEntitiesRepository = require('User:Zvpunry/repositories/SearchEntitiesRepository.js');
     const {
@@ -211,10 +208,21 @@ jQuery(async () => {
       api,
       wgUserLanguage,
     );
+    const datavalueFormattingRepository = new DatavalueFormattingRepository(
+      api,
+      wgUserLanguage,
+      pageTitle,
+    );
 
     const pinia = createPinia();
     pinia.use(({ store }) => {
-      store.debouncedFormatDatavalue = markRaw(debounce(formatDatavalue, 500));
+      store.debouncedFormatDatavalue = markRaw(
+        debounce(
+          (...params) =>
+            datavalueFormattingRepository.formatDatavalue(...params),
+          500,
+        ),
+      );
     });
     pinia.use(({ store }) => {
       store.readingEntityRepository = markRaw({ loadEntity });
@@ -231,7 +239,7 @@ jQuery(async () => {
     app.use(pinia);
     app.provide('searchEntitiesRepository', searchEntitiesRepository);
     app.provide('valueParsingRepository', valueParsingRepository);
-    app.provide('formatDatavaluePlain', formatDatavaluePlain);
+    app.provide('datavalueFormattingRepository', datavalueFormattingRepository);
     app.provide('isProduction', host === 'm.wikidata.org');
     app.provide('statementData', statementData);
     app.provide('i18n', mw.msg);

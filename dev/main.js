@@ -4,10 +4,7 @@ import '../node_modules/@wikimedia/codex/dist/codex.style.css';
 const MEApp = require('../src/MEApp.js');
 const i18nPlugin = require('./i18nPlugin');
 const { debounce } = require('../src/util.js');
-const {
-  formatDatavalue,
-  formatDatavaluePlain,
-} = require('./DatavalueFormattingRepository.js');
+const DatavalueFormattingRepository = require('../src/repositories/DatavalueFormattingRepository.js');
 const SearchEntitiesRepository = require('../src/repositories/SearchEntitiesRepository.js');
 const { loadEntity } = require('./ReadingEntityRepository.js');
 const {
@@ -23,11 +20,21 @@ const searchEntitiesRepository = new SearchEntitiesRepository(
   'en',
 );
 const valueParsingRepository = new ValueParsingRepository(devApiAdapter, 'en');
+const datavalueFormattingRepository = new DatavalueFormattingRepository(
+  devApiAdapter,
+  'en',
+  'Q123',
+);
 
 const app = createApp(MEApp);
 const pinia = createPinia();
 pinia.use(({ store }) => {
-  store.debouncedFormatDatavalue = markRaw(debounce(formatDatavalue, 500));
+  store.debouncedFormatDatavalue = markRaw(
+    debounce(
+      (...params) => datavalueFormattingRepository.formatDatavalue(...params),
+      500,
+    ),
+  );
 });
 pinia.use(({ store }) => {
   store.readingEntityRepository = markRaw({ loadEntity });
@@ -45,7 +52,7 @@ app
   .use(i18nPlugin)
   .provide('statementData', null)
   .provide('searchEntitiesRepository', searchEntitiesRepository)
-  .provide('formatDatavaluePlain', formatDatavaluePlain)
+  .provide('datavalueFormattingRepository', datavalueFormattingRepository)
   .provide('valueParsingRepository', valueParsingRepository)
   .provide('isProduction', false)
   .provide('monoLingualTextLanguages', {

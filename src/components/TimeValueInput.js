@@ -118,13 +118,15 @@ module.exports = {
     // the actual time input
     const timeInputString = ref('');
     const store = useMobileEditingStore();
-    const formatDatavaluePlain = inject('formatDatavaluePlain');
+    const datavalueFormattingRepository = inject(
+      'datavalueFormattingRepository',
+    );
     if (props.datavalue?.value.time) {
-      formatDatavaluePlain(store.statementPropertyId, props.datavalue).then(
-        (data) => {
+      datavalueFormattingRepository
+        .formatDatavaluePlain(store.statementPropertyId, props.datavalue)
+        .then((data) => {
           timeInputString.value = data.result;
-        },
-      );
+        });
     }
 
     const valueParsingRepository = inject('valueParsingRepository');

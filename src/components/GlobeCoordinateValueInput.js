@@ -125,13 +125,15 @@ module.exports = {
     // the actual coordinate input
     const coordinateInputString = ref('');
     const store = useMobileEditingStore();
-    const formatDatavaluePlain = inject('formatDatavaluePlain');
+    const datavalueFormattingRepository = inject(
+      'datavalueFormattingRepository',
+    );
     if (props.datavalue?.value.latitude) {
-      formatDatavaluePlain(store.statementPropertyId, props.datavalue).then(
-        (data) => {
+      datavalueFormattingRepository
+        .formatDatavaluePlain(store.statementPropertyId, props.datavalue)
+        .then((data) => {
           coordinateInputString.value = data.result;
-        },
-      );
+        });
     }
 
     const valueParsingRepository = inject('valueParsingRepository');
