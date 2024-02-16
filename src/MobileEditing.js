@@ -76,10 +76,11 @@ jQuery(async () => {
     );
     return;
   }
-  if (!/([QPL])\d+/.test(mw.config.get('wgTitle'))) {
+  const pageTitle = mw.config.get('wgTitle');
+  if (!/([QPL])\d+/.test(pageTitle)) {
     console.log(
       'Not an Entity page, not adding mobile editing. Actual title: ' +
-        mw.config.get('wgTitle'),
+        pageTitle,
     );
     return;
   }
@@ -243,7 +244,7 @@ jQuery(async () => {
   const {
     loadEntity,
   } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
-  const currentEntity = await loadEntity(mw.config.get('wgTitle'));
+  const currentEntity = await loadEntity(pageTitle);
   const statements = [];
   for (const propertyId in currentEntity.claims) {
     statementValues = currentEntity.claims[propertyId];
