@@ -50,7 +50,7 @@ module.exports = {
     async function onNewInput(newInput) {
       currentSearchTerm.value = newInput;
       if (!newInput) {
-        this.menuItems = [];
+        menuItems.value = [];
         return;
       }
 
