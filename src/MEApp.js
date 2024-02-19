@@ -86,7 +86,7 @@ module.exports = {
   setup(props, { emit }) {
     const store = useMobileEditingStore();
     const statementData = inject('statementData');
-    console.log(statementData);
+    console.log('statementData', statementData);
     if (statementData !== null) {
       store.initFromData(statementData);
     }

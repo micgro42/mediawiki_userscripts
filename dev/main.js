@@ -14,54 +14,59 @@ const {
 const DevApiAdapter = require('./DevApiAdapter.js');
 const ValueParsingRepository = require('../src/repositories/ValueParsingRepository.js');
 
-const devApiAdapter = new DevApiAdapter();
-const searchEntitiesRepository = new SearchEntitiesRepository(
-  devApiAdapter,
-  'en',
-);
-const valueParsingRepository = new ValueParsingRepository(devApiAdapter, 'en');
-const datavalueFormattingRepository = new DatavalueFormattingRepository(
-  devApiAdapter,
-  'en',
-  'Q123',
-);
-
-const app = createApp(MEApp);
-const pinia = createPinia();
-pinia.use(({ store }) => {
-  store.debouncedFormatDatavalue = markRaw(
-    debounce(
-      (...params) => datavalueFormattingRepository.formatDatavalue(...params),
-      500,
-    ),
+window.loadApp = function loadApp(statementData = null) {
+  const devApiAdapter = new DevApiAdapter();
+  const searchEntitiesRepository = new SearchEntitiesRepository(
+    devApiAdapter,
+    'en',
   );
-});
-pinia.use(({ store }) => {
-  store.readingEntityRepository = markRaw({ loadEntity });
-});
-pinia.use(({ store }) => {
-  store.statementWritingRepository = markRaw({
-    writeNewStatement,
-    changeExistingStatement,
-  });
-});
-pinia.use(() => ({ mwConfig: { wgUserLanguage: 'en' } }));
-app.use(pinia);
+  const valueParsingRepository = new ValueParsingRepository(
+    devApiAdapter,
+    'en',
+  );
+  const datavalueFormattingRepository = new DatavalueFormattingRepository(
+    devApiAdapter,
+    'en',
+    'Q123',
+  );
 
-app
-  .use(i18nPlugin)
-  .provide('statementData', null)
-  .provide('searchEntitiesRepository', searchEntitiesRepository)
-  .provide('datavalueFormattingRepository', datavalueFormattingRepository)
-  .provide('valueParsingRepository', valueParsingRepository)
-  .provide('isProduction', false)
-  .provide('monoLingualTextLanguages', {
-    de: 'German',
-    'de-at': 'Austrian German',
-    'de-ch': 'Swiss High German',
-    en: 'English',
-    fr: 'French',
-    it: 'Italian',
-    sw: 'Swahili',
-  })
-  .mount('#app');
+  const app = createApp(MEApp);
+  const pinia = createPinia();
+  pinia.use(({ store }) => {
+    store.debouncedFormatDatavalue = markRaw(
+      debounce(
+        (...params) => datavalueFormattingRepository.formatDatavalue(...params),
+        500,
+      ),
+    );
+  });
+  pinia.use(({ store }) => {
+    store.readingEntityRepository = markRaw({ loadEntity });
+  });
+  pinia.use(({ store }) => {
+    store.statementWritingRepository = markRaw({
+      writeNewStatement,
+      changeExistingStatement,
+    });
+  });
+  pinia.use(() => ({ mwConfig: { wgUserLanguage: 'en' } }));
+  app.use(pinia);
+
+  app
+    .use(i18nPlugin)
+    .provide('statementData', statementData)
+    .provide('searchEntitiesRepository', searchEntitiesRepository)
+    .provide('datavalueFormattingRepository', datavalueFormattingRepository)
+    .provide('valueParsingRepository', valueParsingRepository)
+    .provide('isProduction', false)
+    .provide('monoLingualTextLanguages', {
+      de: 'German',
+      'de-at': 'Austrian German',
+      'de-ch': 'Swiss High German',
+      en: 'English',
+      fr: 'French',
+      it: 'Italian',
+      sw: 'Swahili',
+    })
+    .mount('#app');
+};
