@@ -15,6 +15,7 @@ module.exports = {
     <cdx-text-input
       v-model="amountInputString"
       @update:model-value="onAmountInput"
+      placeholder="123"
     ></cdx-text-input>
     <template #label>
         {{ $i18n('wikibase-quantitydetails-amount') }}
@@ -57,7 +58,7 @@ module.exports = {
 
     const selectedUnitEntityId = ref(null);
     const selectedUnitConceptURI = ref(null);
-    if (props.datavalue?.value.unit) {
+    if (props.datavalue && props.datavalue?.value.unit !== '1') {
       selectedUnitConceptURI.value = props.datavalue.value.unit;
       selectedUnitEntityId.value = props.datavalue.value.unit.match(/Q\d+/)[0];
     }
@@ -113,9 +114,5 @@ module.exports = {
       onUnitEntitySelected,
       errorMessages,
     };
-
-    // "datavalue":{"type":"quantity","value":{"amount":"+1","unit":"http://www.wikidata.org/entity/Q11573"}}
-    // "datavalue":{"type":"quantity","value":{"amount":"+1","unit":"1"}}
-    // "datavalue":{"type":"quantity","value":{"amount":"+42","unit":"1","upperBound":"+42.5","lowerBound":"+41.5"}}
   },
 };
