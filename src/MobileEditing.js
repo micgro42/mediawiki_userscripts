@@ -76,11 +76,11 @@ jQuery(async () => {
     );
     return;
   }
-  const pageTitle = mw.config.get('wgTitle');
-  if (!/([QPL])\d+/.test(pageTitle)) {
+  const entityId = mw.config.get('wbEntityId');
+  if (!/([QPL])\d+/.test(entityId)) {
     console.log(
-      'Not an Entity page, not adding mobile editing. Actual title: ' +
-        pageTitle,
+      'Not an existing Entity page, not adding mobile editing. Actual title: ' +
+        mw.config.get('wgPageName'),
     );
     return;
   }
@@ -209,7 +209,7 @@ jQuery(async () => {
     const datavalueFormattingRepository = new DatavalueFormattingRepository(
       api,
       wgUserLanguage,
-      pageTitle,
+      entityId,
     );
     const statementWritingRepository = new StatementWritingRepository(
       api,
@@ -258,7 +258,7 @@ jQuery(async () => {
   const {
     loadEntity,
   } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
-  const currentEntity = await loadEntity(pageTitle);
+  const currentEntity = await loadEntity(entityId);
   const statements = [];
   for (const propertyId in currentEntity.claims) {
     statementValues = currentEntity.claims[propertyId];
