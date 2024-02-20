@@ -185,10 +185,7 @@ jQuery(async () => {
     const {
       loadEntity,
     } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
-    const {
-      writeNewStatement,
-      changeExistingStatement,
-    } = require('User:Zvpunry/repositories/StatementWritingRepository.js');
+    const StatementWritingRepository = require('User:Zvpunry/repositories/StatementWritingRepository.js');
     const ValueParsingRepository = require('User:Zvpunry/repositories/ValueParsingRepository.js');
 
     const wgUserLanguage = mw.config.get('wgUserLanguage');
@@ -213,6 +210,10 @@ jQuery(async () => {
       wgUserLanguage,
       pageTitle,
     );
+    const statementWritingRepository = new StatementWritingRepository(
+      api,
+      wgUserLanguage,
+    );
 
     const pinia = createPinia();
     pinia.use(({ store }) => {
@@ -228,10 +229,7 @@ jQuery(async () => {
       store.readingEntityRepository = markRaw({ loadEntity });
     });
     pinia.use(({ store }) => {
-      store.statementWritingRepository = markRaw({
-        writeNewStatement,
-        changeExistingStatement,
-      });
+      store.statementWritingRepository = markRaw(statementWritingRepository);
     });
     pinia.use(() => ({
       mwConfig: { wgUserLanguage },
