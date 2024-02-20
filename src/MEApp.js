@@ -82,8 +82,7 @@ module.exports = {
     SnakValueInput,
   },
   props: {},
-  emits: ['update:open', 'save-name'],
-  setup(props, { emit }) {
+  setup() {
     const store = useMobileEditingStore();
     const statementData = inject('statementData');
     console.log('statementData', statementData);
