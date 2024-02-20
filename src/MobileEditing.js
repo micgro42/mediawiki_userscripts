@@ -3,7 +3,6 @@
  * A Work-In-Progress user script (wannabe gadget) to add proper mobile editing for statements to Wikidata
  *
  * TODO Next:
- *   [ ]: add support for quantity
  *
  * TODO MS1 "Publish":
  *   [ ]: add full support for globe coordinate
@@ -34,6 +33,7 @@
  *
  *
  * DONE:
+ *   [x]: add support for quantity datatype
  *   [x]: add support for deleting statements
  *   [x]: don't load bridge on protected pages
  *   [x]: Bug: Changing _only_ the rank does not seem to work? Changing rank and datavalue works, though.
@@ -115,6 +115,7 @@ jQuery(async () => {
       'valueview-preview-label',
       'wikibase-publish',
       'wikibase-remove',
+      'wikibase-quantitydetails-amount',
       'wikibase-snakview-snaktypeselector-value',
       'wikibase-snakview-variations-somevalue-label',
       'wikibase-snakview-variations-novalue-label',
@@ -138,6 +139,7 @@ jQuery(async () => {
       'valueview-expert-timeinput-precision-year100m',
       'valueview-expert-timeinput-precision-year1g',
       'valueview-expertextender-languageselector-label',
+      'valueview-expertextender-unitsuggester-label',
       'valueview-expert-globecoordinateinput-precisionlabel-tenthousandth-of-arcsecond',
       'valueview-expert-globecoordinateinput-precisionlabel-thousandth-of-arcsecond',
       'valueview-expert-globecoordinateinput-precisionlabel-hundredth-of-arcsecond',
@@ -154,6 +156,7 @@ jQuery(async () => {
     preloadDependency('User:Zvpunry/components/StringValueInput.js'),
     preloadDependency('User:Zvpunry/components/EntityValueInput.js'),
     preloadDependency('User:Zvpunry/components/TimeValueInput.js'),
+    preloadDependency('User:Zvpunry/components/QuantityValueInput.js'),
     preloadDependency('User:Zvpunry/components/MonoLingualTextValueInput.js'),
     preloadDependency('User:Zvpunry/components/GlobeCoordinateValueInput.js'),
     preloadDependency(

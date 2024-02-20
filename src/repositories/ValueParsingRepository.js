@@ -4,15 +4,15 @@ class ValueParsingRepository {
     this.langCode = langCode;
   }
 
-  async parseValueToHTML(value, datatype) {
+  async parseValueToHTML(value, datatype, additionalOptions = {}) {
     return this.api
       .get({
         action: 'wbparsevalue',
         datatype: datatype,
-        format: 'json',
         values: value,
         options: JSON.stringify({
           lang: this.langCode,
+          ...additionalOptions,
         }),
       })
       .catch((errorCodeOrErrors, responseWithErrorsOrUndefined) => {
@@ -22,6 +22,12 @@ class ValueParsingRepository {
         }
         return Promise.reject(responseWithErrorsOrUndefined.errors);
       });
+  }
+
+  async parseQuantityValueToHTML(value, unitConceptURI) {
+    return this.parseValueToHTML(value, 'quantity', {
+      unit: unitConceptURI,
+    });
   }
 }
 

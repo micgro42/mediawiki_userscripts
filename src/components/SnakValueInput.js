@@ -3,6 +3,7 @@ const { computed, inject } = require('vue');
 const StringValueInput = require('User:Zvpunry/components/StringValueInput.js');
 const EntityValueInput = require('User:Zvpunry/components/EntityValueInput.js');
 const TimeValueInput = require('User:Zvpunry/components/TimeValueInput.js');
+const QuantityValueInput = require('User:Zvpunry/components/QuantityValueInput.js');
 const MonoLingualTextValueInput = require('User:Zvpunry/components/MonoLingualTextValueInput.js');
 const GlobeCoordinateValueInput = require('User:Zvpunry/components/GlobeCoordinateValueInput.js');
 
@@ -25,6 +26,7 @@ module.exports = {
     StringValueInput,
     EntityValueInput,
     TimeValueInput,
+    QuantityValueInput,
     MonoLingualTextValueInput,
     GlobeCoordinateValueInput,
   },
@@ -69,6 +71,9 @@ module.exports = {
       }
       if (props.datatype === 'globe-coordinate') {
         return 'GlobeCoordinateValueInput';
+      }
+      if (props.datatype === 'quantity') {
+        return 'QuantityValueInput';
       }
       return null;
     });

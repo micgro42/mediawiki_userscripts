@@ -19,7 +19,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
   getters: {
     statementPropertyLabel: (state) => {
       console.log(
-        'statementPropertLabel accessed',
+        'statementPropertyLabel accessed',
         state.statementPropertyId,
         state.statementPropertyData,
       );

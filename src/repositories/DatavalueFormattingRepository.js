@@ -30,16 +30,29 @@ class DatavalueFormattingRepository {
     });
   }
 
-  async formatDatavaluePlain(propertyId, datavalue) {
-    return this.makeFormatDatavalueRequest(propertyId, datavalue, 'text/plain');
+  async formatDatavaluePlain(propertyId, datavalue, additionalOptions = {}) {
+    return this.makeFormatDatavalueRequest(
+      propertyId,
+      datavalue,
+      'text/plain',
+      additionalOptions,
+    );
   }
 
-  async makeFormatDatavalueRequest(propertyId, datavalue, format) {
+  async makeFormatDatavalueRequest(
+    propertyId,
+    datavalue,
+    format,
+    additionalOptions = {},
+  ) {
     return this.#api.get({
       action: 'wbformatvalue',
       generate: format,
       property: propertyId,
-      options: JSON.stringify({ lang: this.#langCode }),
+      options: JSON.stringify({
+        lang: this.#langCode,
+        ...additionalOptions,
+      }),
       datavalue: JSON.stringify(datavalue),
     });
   }

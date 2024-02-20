@@ -1,4 +1,5 @@
 const messages = {
+  'wikibase-quantitydetails-amount': 'Amount',
   'wikibase-statementview-rank-deprecated': 'Deprecated rank',
   'wikibase-statementview-rank-normal': 'Normal rank',
   'wikibase-statementview-rank-preferred': 'Preferred rank',
@@ -8,6 +9,7 @@ const messages = {
   'wikibase-publish': 'publish',
   'wikibase-remove': 'remove',
   'valueview-expertextender-languageselector-label': 'Language (mandatory):',
+  'valueview-expertextender-unitsuggester-label': 'Unit (optional):',
   'valueview-expert-globecoordinateinput-precision': 'Precision:',
   'valueview-expert-globecoordinateinput-nullprecision': 'unspecified',
   'valueview-expert-globecoordinateinput-customprecision': 'special ($1)',
