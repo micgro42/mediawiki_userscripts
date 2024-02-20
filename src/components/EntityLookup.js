@@ -16,7 +16,7 @@ module.exports = {
           :menuConfig="menuConfig"
           @input="onNewInput"
           @update:selected="onSelection"
-					@load-more="onLoadMore"
+          @load-more="onLoadMore"
         ></cdx-lookup>
         <template #label>
           {{ label }}

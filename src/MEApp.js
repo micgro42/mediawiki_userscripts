@@ -17,61 +17,61 @@ const {
 module.exports = {
   name: 'MEApp',
   template: `
-	    <cdx-dialog
-	        v-model:open="open"
-	        title="Add a new Statement"
-	        close-button-label="Cancel"
-	        @update:open="toggleDialog"
-	    >
-	        <entity-lookup
-	        	v-if="!store.statementPropertyId"
-	        	type="property"
-	        	placeholder="instance of (P31)"
-	        	label="Select the Statement Property"
-	        	@selected="onStatementPropertySelected"
-	        ></entity-lookup>
-	        <div v-else>
-	        	<h2>{{ store.statementPropertyLabel }}</h2>
-	        	<rank-selector
-	        		:selected="store.rank"
-	        		@update:selected="onRankUpdate"
-	        	></rank-selector>
-	        	<snak-type-selector
-	        		:selected="store.snaktype"
-	        		@update:selected="onSnakTypeUpdate"
-	        	></snak-type-selector>
-	        	<snak-value-input
-	        		v-if="store.snaktype === 'value'"
-	        		:datatype="store.statementPropertyDataype"
-	        		:value="store.datavalue"
-	        		@update:value="onSnakValueUpdate"
-	        	></snak-value-input>
-	        	<div
-	        		v-if="store.formattedDatavalueHTML"
-	        	>
-	        		<p>{{ $i18n('valueview-preview-label') }}</p>
-	        		<div v-html="store.formattedDatavalueHTML"></div>
-	        	</div>
-	        	<h3>Qualifiers</h3>
+      <cdx-dialog
+          v-model:open="open"
+          title="Add a new Statement"
+          close-button-label="Cancel"
+          @update:open="toggleDialog"
+      >
+          <entity-lookup
+            v-if="!store.statementPropertyId"
+            type="property"
+            placeholder="instance of (P31)"
+            label="Select the Statement Property"
+            @selected="onStatementPropertySelected"
+          ></entity-lookup>
+          <div v-else>
+            <h2>{{ store.statementPropertyLabel }}</h2>
+            <rank-selector
+              :selected="store.rank"
+              @update:selected="onRankUpdate"
+            ></rank-selector>
+            <snak-type-selector
+              :selected="store.snaktype"
+              @update:selected="onSnakTypeUpdate"
+            ></snak-type-selector>
+            <snak-value-input
+              v-if="store.snaktype === 'value'"
+              :datatype="store.statementPropertyDataype"
+              :value="store.datavalue"
+              @update:value="onSnakValueUpdate"
+            ></snak-value-input>
+            <div
+              v-if="store.formattedDatavalueHTML"
+            >
+              <p>{{ $i18n('valueview-preview-label') }}</p>
+              <div v-html="store.formattedDatavalueHTML"></div>
+            </div>
+            <h3>Qualifiers</h3>
             <em>Coming soon™</em>
             <h3>References</h3>
             <em>Coming soon™</em>
-	        </div>
-	        <template #footer>
-		        <cdx-message
-	        		v-if="store.lastApiErrorText !== null"
-	        		type="error"
-	        		:fade-in="true"
-	        	>{{ store.lastApiErrorText }}</cdx-message>
-	        	<cdx-button
-	        		weight="primary"
-	        		action="progressive"
-	        		@click="saveStatement"
-	        		:disabled="isSavingDisabled"
-	        	>{{ $i18n('wikibase-publish') }}</cdx-button>
-	        </template>
-	    </cdx-dialog>
-	`,
+          </div>
+          <template #footer>
+            <cdx-message
+              v-if="store.lastApiErrorText !== null"
+              type="error"
+              :fade-in="true"
+            >{{ store.lastApiErrorText }}</cdx-message>
+            <cdx-button
+              weight="primary"
+              action="progressive"
+              @click="saveStatement"
+              :disabled="isSavingDisabled"
+            >{{ $i18n('wikibase-publish') }}</cdx-button>
+          </template>
+      </cdx-dialog>
+  `,
   components: {
     CdxDialog,
     CdxMessage,
