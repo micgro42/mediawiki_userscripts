@@ -21,12 +21,7 @@ class DevApiAdapter {
   async get(params) {
     return this.session.request(params).catch((error /* ApiErrors */) => {
       console.log('m3api error errors', error.errors);
-      const errorData = {
-        error: {
-          info: error.errors[0].text,
-        },
-      };
-      return Promise.reject(errorData);
+      return Promise.reject(error.errors);
     });
   }
 }

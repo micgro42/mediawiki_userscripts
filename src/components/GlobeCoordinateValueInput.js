@@ -161,7 +161,7 @@ module.exports = {
         (errorData) => {
           console.log('globe coordinate parse error:', errorData);
           emit('update:datavalue', null);
-          errorMessages.value = { error: errorData.error.info };
+          errorMessages.value = { error: errorData[0].text };
         },
       );
     }

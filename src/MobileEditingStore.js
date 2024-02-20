@@ -132,7 +132,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
           .then(
             () => {},
             (code, data) => {
-              this.lastApiErrorText = data.error.info;
+              this.lastApiErrorText = data.errors[0].text;
               throw new Error(code);
             },
           );
@@ -152,7 +152,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
         .then(
           () => {},
           (code, data) => {
-            this.lastApiErrorText = data.error.info;
+            this.lastApiErrorText = data.errors[0].text;
             throw new Error(code);
           },
         );
@@ -161,7 +161,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
       return this.statementWritingRepository.deleteStatement(this.id).then(
         () => {},
         (code, data) => {
-          this.lastApiErrorText = data.error.info;
+          this.lastApiErrorText = data.errors[0].text;
           throw new Error(code);
         },
       );

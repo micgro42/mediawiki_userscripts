@@ -15,12 +15,12 @@ class ValueParsingRepository {
           lang: this.langCode,
         }),
       })
-      .catch((errorCode, errorData) => {
-        if (!errorData) {
+      .catch((errorCodeOrErrors, responseWithErrorsOrUndefined) => {
+        if (!responseWithErrorsOrUndefined) {
           // Dev
-          return Promise.reject(errorCode);
+          return Promise.reject(errorCodeOrErrors);
         }
-        return Promise.reject(errorData);
+        return Promise.reject(responseWithErrorsOrUndefined.errors);
       });
   }
 }
