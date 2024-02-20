@@ -63,12 +63,22 @@ module.exports = {
               type="error"
               :fade-in="true"
             >{{ store.lastApiErrorText }}</cdx-message>
-            <cdx-button
-              weight="primary"
-              action="progressive"
-              @click="saveStatement"
-              :disabled="isSavingDisabled"
-            >{{ $i18n('wikibase-publish') }}</cdx-button>
+            <div style="display:flex;justify-content:space-between;">
+              <cdx-button
+                :style="isEdit ? null : 'visibility:hidden'"
+                weight="primary"
+                action="destructive"
+                @click="deleteStatement"
+              >{{ $i18n('wikibase-remove') }}
+              </cdx-button>
+              <cdx-button
+                weight="primary"
+                action="progressive"
+                @click="saveStatement"
+                :disabled="isSavingDisabled"
+              >{{ $i18n('wikibase-publish') }}
+              </cdx-button>
+            </div>
           </template>
       </cdx-dialog>
   `,
@@ -85,9 +95,11 @@ module.exports = {
   setup() {
     const store = useMobileEditingStore();
     const statementData = inject('statementData');
+    const isEdit = ref(false);
     console.log('statementData', statementData);
     if (statementData !== null) {
       store.initFromData(statementData);
+      isEdit.value = true;
     }
 
     const isSavingDisabled = computed(() => {
@@ -99,6 +111,16 @@ module.exports = {
 
     async function saveStatement() {
       store.saveStatement().then(
+        () => {
+          // Success!
+          window.location.reload();
+        },
+        // error already added to store
+      );
+    }
+
+    async function deleteStatement() {
+      store.deleteStatement().then(
         () => {
           // Success!
           window.location.reload();
@@ -138,6 +160,8 @@ module.exports = {
       isSavingDisabled,
       toggleDialog,
       saveStatement,
+      deleteStatement,
+      isEdit,
     };
   },
 };

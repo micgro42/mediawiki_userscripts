@@ -11,7 +11,6 @@
  *      [ ]: add Item-Lookup for globe
  *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
  *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
- *   [ ]: add support for deleting statements
  *   [ ]: fix "bouncing" of overall Dialog as values are edited -> formatting!
  *   [ ]: remove datavalue <pre>
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
@@ -35,6 +34,7 @@
  *
  *
  * DONE:
+ *   [x]: add support for deleting statements
  *   [x]: don't load bridge on protected pages
  *   [x]: Bug: Changing _only_ the rank does not seem to work? Changing rank and datavalue works, though.
  *   [x]: EntityLookup: load-more behavior
@@ -114,6 +114,7 @@ jQuery(async () => {
       'wikibase-statementgrouplistview-add',
       'valueview-preview-label',
       'wikibase-publish',
+      'wikibase-remove',
       'wikibase-snakview-snaktypeselector-value',
       'wikibase-snakview-variations-somevalue-label',
       'wikibase-snakview-variations-novalue-label',

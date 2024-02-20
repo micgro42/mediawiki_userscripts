@@ -6,6 +6,7 @@ const messages = {
   'wikibase-snakview-variations-novalue-label': 'no value',
   'wikibase-snakview-snaktypeselector-value': 'custom value',
   'wikibase-publish': 'publish',
+  'wikibase-remove': 'remove',
   'valueview-expertextender-languageselector-label': 'Language (mandatory):',
   'valueview-expert-globecoordinateinput-precision': 'Precision:',
   'valueview-expert-globecoordinateinput-nullprecision': 'unspecified',

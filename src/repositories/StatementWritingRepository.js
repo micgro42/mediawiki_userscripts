@@ -65,6 +65,18 @@ class StatementWritingRepository {
     return this.#writeApi(claim);
   }
 
+  deleteStatement(statementId) {
+    const params = {
+      action: 'wbremoveclaims',
+      claim: statementId,
+      // TODO: assert baserevid?
+      //       => wgRevisionId
+      //       What to do if edit conflict?
+    };
+    const paramsWithAssertUser = this.#api.assertCurrentUser(params);
+    return this.#api.postWithEditToken(paramsWithAssertUser);
+  }
+
   #writeApi(claim, extraParams = {}) {
     // Allow custom summary by user?
     const summary = 'Made with [[User:Zvpunry/MobileEditing.js]]';

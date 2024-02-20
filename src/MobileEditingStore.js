@@ -157,6 +157,15 @@ const useMobileEditingStore = defineStore('MobileEditing', {
           },
         );
     },
+    deleteStatement() {
+      return this.statementWritingRepository.deleteStatement(this.id).then(
+        () => {},
+        (code, data) => {
+          this.lastApiErrorText = data.error.info;
+          throw new Error(code);
+        },
+      );
+    },
     open() {
       this.isOpen = true;
     },
