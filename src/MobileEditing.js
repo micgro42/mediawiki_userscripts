@@ -3,25 +3,35 @@
  * A Work-In-Progress user script (wannabe gadget) to add proper mobile editing for statements to Wikidata
  *
  * TODO Next:
+ *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
+ *
+ * TODO MS0.5 "first WIP publish":
+ *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
+ *   [ ]: refactor my require.js
  *
  * TODO MS1 "Publish":
+ *   [ ]: precommit hook for prettier
+ *   [ ]: run eslint locally and fix everything
+ *   [ ]: run eslint and prettier in CI
+ *   [ ]: forbid pushes to main branch, require MergeRequests with green checks
+ *   [ ]: add "deploy to www.wikidata.org on Release/Tag" CI pipeline to GitLab
+ *   [ ]: add Cypress browser tests
+ *   [ ]: consider jest/vitest unit tests?
+ *   [ ]: add support for qualifiers
+ *   [ ]: add support for references
  *   [ ]: add full support for globe coordinate
  *      [ ]: figure out how to make the map fully live
  *      [ ]: add Item-Lookup for globe
- *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
- *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
  *   [ ]: fix "bouncing" of overall Dialog as values are edited -> formatting!
  *   [ ]: remove datavalue <pre>
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
  *   [ ]: show current entity label somewhere
  *   [ ]: reduce console.log noise
- *   [ ]: don't to anything on pages for non-existing entities
  *   [ ]: replace as much copy as possible with i18n message
  *   [ ]: write proper documentation into this file
  *
  * TODO: After:
- *   [ ]: add support for qualifiers
- *   [ ]: add support for references
+ *   [ ]: add usage tracking?
  *   [ ]: Figure out why throwing in preloadDependency(...) does not halt script execution
  *   [ ]: add support for quick-buttons that skip property-selection (use localstorage!)
  *   [ ]: use property suggestions API?
@@ -33,6 +43,7 @@
  *
  *
  * DONE:
+ *   [x]: don't to anything on pages for non-existing entities
  *   [x]: add support for quantity datatype
  *   [x]: add support for deleting statements
  *   [x]: don't load bridge on protected pages
