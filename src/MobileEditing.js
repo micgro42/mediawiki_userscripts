@@ -3,11 +3,10 @@
  * A Work-In-Progress user script (wannabe gadget) to add proper mobile editing for statements to Wikidata
  *
  * TODO Next:
- *   [ ]: make dialog title "Add new statement" correct when actually editing a statement
+ *   [ ]: refactor my require.js
  *
  * TODO MS0.5 "first WIP publish":
  *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
- *   [ ]: refactor my require.js
  *
  * TODO MS1 "Publish":
  *   [ ]: precommit hook for prettier
@@ -43,6 +42,7 @@
  *
  *
  * DONE:
+ *   [x]: make dialog title "Add new statement" correct when actually editing a statement
  *   [x]: don't to anything on pages for non-existing entities
  *   [x]: add support for quantity datatype
  *   [x]: add support for deleting statements

@@ -19,7 +19,7 @@ module.exports = {
   template: `
       <cdx-dialog
           v-model:open="open"
-          title="Add a new Statement"
+          :title="isEdit ? 'Edit a Statement' : 'Add a new Statement'"
           close-button-label="Cancel"
           @update:open="toggleDialog"
       >
