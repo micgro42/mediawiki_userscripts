@@ -114,6 +114,44 @@ window.mockData.set('quantityWithUnit', {
   ],
 });
 
+window.mockData.set('quantityWithoutUnit', {
+  mainsnak: {
+    snaktype: 'value',
+    property: 'P1132',
+    hash: '5796696af615644841321d5826d30551cbf2fb7e',
+    datavalue: {
+      value: {
+        amount: '+167',
+        unit: '1',
+      },
+      type: 'quantity',
+    },
+    datatype: 'quantity',
+  },
+  type: 'statement',
+  qualifiers: {
+    P276: [
+      {
+        snaktype: 'value',
+        property: 'P276',
+        hash: '571f3c097f8f7a19a635b60617eaeb9fb8f63201',
+        datavalue: {
+          value: {
+            'entity-type': 'item',
+            'numeric-id': 529711,
+            id: 'Q529711',
+          },
+          type: 'wikibase-entityid',
+        },
+        datatype: 'wikibase-item',
+      },
+    ],
+  },
+  'qualifiers-order': ['P276'],
+  id: 'Q4115189$44d2387d-687f-46df-a792-5338cb4a58ff',
+  rank: 'normal',
+});
+
 window.mockData.set('quantityWithBounds', {
   mainsnak: {
     snaktype: 'value',
