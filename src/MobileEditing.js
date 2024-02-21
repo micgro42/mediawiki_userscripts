@@ -21,6 +21,7 @@
  *   [ ]: add full support for globe coordinate
  *      [ ]: figure out how to make the map fully live
  *      [ ]: add Item-Lookup for globe
+ *   [ ]: css-filter to indicate loading status of preview rendering?
  *   [ ]: fix "bouncing" of overall Dialog as values are edited -> formatting!
  *   [ ]: remove datavalue <pre>
  *   [ ]: EntityLookup: show some animation or something when loading results for initial selection
@@ -42,6 +43,8 @@
  *
  *
  * DONE:
+ *   [x]: add clear floats to heading of qualifiers for geo-coordinate preview
+ *   [x]: empty preview on somevalue/novalue snak-types
  *   [x]: make dialog title "Add new statement" correct when actually editing a statement
  *   [x]: don't to anything on pages for non-existing entities
  *   [x]: add support for quantity datatype

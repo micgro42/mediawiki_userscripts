@@ -47,12 +47,17 @@ module.exports = {
               @update:value="onSnakValueUpdate"
             ></snak-value-input>
             <div
-              v-if="store.formattedDatavalueHTML"
+              v-if="store.snaktype === 'value'"
             >
               <p>{{ $i18n('valueview-preview-label') }}</p>
-              <div v-html="store.formattedDatavalueHTML"></div>
+              <div
+                v-html="store.formattedDatavalueHTML"
+                style="min-height:1lh;"
+              ></div>
             </div>
-            <h3>Qualifiers</h3>
+            <h3
+              style="clear:both;"
+            >Qualifiers</h3>
             <em>Coming soon™</em>
             <h3>References</h3>
             <em>Coming soon™</em>
@@ -136,7 +141,7 @@ module.exports = {
       store.rank = newRank;
     }
     function onSnakTypeUpdate(newSnakType) {
-      store.snaktype = newSnakType;
+      store.setSnakType(newSnakType);
     }
     function onSnakValueUpdate(newSnakValue) {
       store.setDatavalue(newSnakValue);

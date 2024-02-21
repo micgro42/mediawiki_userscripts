@@ -109,6 +109,13 @@ const useMobileEditingStore = defineStore('MobileEditing', {
         },
       );
     },
+    setSnakType(newSnakType) {
+      this.snaktype = newSnakType;
+      if (['somevalue', 'novalue'].includes(newSnakType)) {
+        this.datavalue = null;
+        this.formattedDatavalueHTML = '';
+      }
+    },
     setStatementPropertyId(propertyId) {
       this.statementPropertyId = propertyId;
       this.readingEntityRepository.loadEntity(propertyId).then((entityData) => {
