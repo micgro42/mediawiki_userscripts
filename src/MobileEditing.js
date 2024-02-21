@@ -3,19 +3,18 @@
  * A Work-In-Progress user script (wannabe gadget) to add proper mobile editing for statements to Wikidata
  *
  * TODO Next:
+ *   [ ]: precommit hook for prettier
+ *   [ ]: jest/vitest unit tests setup
  *   [ ]: refactor my require.js
- *
- * TODO MS0.5 "first WIP publish":
- *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
+ *     [ ]: add unit tests for require.js!
+ *   [ ]: run eslint locally and fix everything
+ *   [ ]: run eslint and prettier and tests in CI
  *
  * TODO MS1 "Publish":
- *   [ ]: precommit hook for prettier
- *   [ ]: run eslint locally and fix everything
- *   [ ]: run eslint and prettier in CI
  *   [ ]: forbid pushes to main branch, require MergeRequests with green checks
  *   [ ]: add "deploy to www.wikidata.org on Release/Tag" CI pipeline to GitLab
  *   [ ]: add Cypress browser tests
- *   [ ]: consider jest/vitest unit tests?
+ *   [ ]: add support for client hints: https://phabricator.wikimedia.org/T344984#9120137
  *   [ ]: add support for qualifiers
  *   [ ]: add support for references
  *   [ ]: add full support for globe coordinate
