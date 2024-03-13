@@ -14,37 +14,30 @@
     window.mwLoaderRequire = require;
   });
 
-  function fixModuleName(moduleName) {
+  function validateModuleName(moduleName) {
     if (
       moduleName.endsWith('.js') ||
       moduleName === 'User:Zvpunry/components'
     ) {
-      return moduleName;
+      return;
     }
     throw new Error(`"${moduleName}", missing ".js" suffix!`);
   }
 
-  window.require = function require(initialModuleName) {
-    const moduleState = mw.loader.getState(initialModuleName);
+  window.require = function require(moduleName) {
+    const moduleState = mw.loader.getState(moduleName);
     if (moduleState === 'ready') {
-      return window.mwLoaderRequire(initialModuleName);
+      return window.mwLoaderRequire(moduleName);
     }
     if (moduleState !== null) {
-      throw new Error(
-        'state for ' +
-          initialModuleName +
-          ' is ' +
-          mw.loader.getState(initialModuleName),
-      );
+      throw new Error(`state for ${moduleName} is ${moduleState}`);
     }
 
-    const moduleName = fixModuleName(initialModuleName);
+    validateModuleName(moduleName);
     // loading user script dependency preloaded with preloadDependency
     const nameParts = moduleName.split('/');
     let module = window.preloadedDependencies;
-    let scriptText = null;
     try {
-      // console.log(moduleName);
       for (const part of nameParts) {
         module = module[part];
       }
@@ -53,7 +46,7 @@
         `Failed loading ${moduleName}! Has it been preloaded with preloadDependency()?`,
         e,
       );
-      throw e;
+      throw new Error(`Failed loading module ${moduleName}`);
     }
 
     if (!module) {
@@ -83,17 +76,15 @@
     },
   };
 
-  window.preloadDependency = async function preloadDependency(
-    initialModuleName,
-  ) {
+  window.preloadDependency = async function preloadDependency(moduleName) {
     // also consider mw.loader.using here?
 
-    const moduleName = fixModuleName(initialModuleName);
+    validateModuleName(moduleName);
     const host = location.host;
     const url = `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`;
     // TODO: make sure caching works (must revalidate)!
-    return fetch(url)
-      .then(async function (response) {
+    return fetch(url).then(
+      async function (response) {
         const scriptText = await response.text();
         const nameParts = moduleName.split('/');
         const scriptName = nameParts.pop();
@@ -108,12 +99,15 @@
           ref = ref[part];
         }
         if (!scriptText) {
-          throw new Error(`Failed preloading module ${moduleName}!`);
+          throw new Error(
+            `Failed preloading module ${moduleName}! Module is empty!`,
+          );
         }
         ref[scriptName] = scriptText;
-      })
-      .catch((...errorParams) => {
+      },
+      (...errorParams) => {
         console.error(...errorParams);
-      });
+      },
+    );
   };
 })();

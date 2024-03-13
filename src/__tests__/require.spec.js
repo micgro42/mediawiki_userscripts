@@ -14,6 +14,10 @@ let rlRequire;
 
 describe('require.js', () => {
   beforeEach(async () => {
+    window.preloadedDependencies = null;
+    window.mwLoaderRequire = null;
+    window.console.error = vi.fn();
+
     rlRequire = vi.fn();
     const using = vi
       .fn()
@@ -35,37 +39,67 @@ describe('require.js', () => {
     // FIXME: explicitly set location.host?
   });
 
-  it('uses the RL require for RL modules', () => {
-    mw.loader.getState.mockReturnValue('ready');
-    const moduleName = 'codex';
-    window.require(moduleName);
-    expect(rlRequire).toHaveBeenCalledWith(moduleName);
+  describe('happy paths', () => {
+    it('uses the RL require for RL modules', () => {
+      mw.loader.getState.mockReturnValue('ready');
+      const moduleName = 'codex';
+      window.require(moduleName);
+      expect(rlRequire).toHaveBeenCalledWith(moduleName);
+      expect(window.console.error).not.toHaveBeenCalled();
+    });
+
+    it('loads and evaluates a custom user script', async () => {
+      mw.loader.getState.mockReturnValue(null);
+      fetch.mockResolvedValue(createFetchResponse('module.exports=5;'));
+      const moduleName = `User:Abc/xyz${Math.random()}.js`;
+      await window.preloadDependency(moduleName);
+      expect(fetch).toHaveBeenCalledWith(
+        `//localhost:3000/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`,
+      );
+      expect(window.require(moduleName)).toBe(5);
+      expect(rlRequire).not.toHaveBeenCalled();
+      expect(window.console.error).not.toHaveBeenCalled();
+    });
+
+    it('creates a new object for each require call', async () => {
+      mw.loader.getState.mockReturnValue(null);
+      fetch.mockResolvedValue(createFetchResponse('module.exports={value:5};'));
+      const moduleName = `User:Abc/xyz${Math.random()}.js`;
+      await window.preloadDependency(moduleName);
+      expect(fetch).toHaveBeenCalledWith(
+        `//localhost:3000/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`,
+      );
+      const firstCallResult = window.require(moduleName);
+      expect(firstCallResult.value).toBe(5);
+      const secondCallResult = window.require(moduleName);
+      expect(secondCallResult.value).toBe(5);
+      expect(firstCallResult).not.toBe(secondCallResult);
+      expect(window.console.error).not.toHaveBeenCalled();
+    });
   });
 
-  it('loads and evaluates a custom user script', async () => {
-    mw.loader.getState.mockReturnValue(null);
-    fetch.mockResolvedValue(createFetchResponse('module.exports=5;'));
-    const moduleName = 'User:Abc/xyz.js';
-    await window.preloadDependency(moduleName);
-    expect(fetch).toHaveBeenCalledWith(
-      '//localhost:3000/w/index.php?title=User:Abc/xyz.js&action=raw&ctype=text/javascript',
-    );
-    expect(window.require(moduleName)).toBe(5);
-    expect(rlRequire).not.toHaveBeenCalled();
-  });
+  describe('error handling', () => {
+    it('throws if module name does not end with .js', () => {
+      mw.loader.getState.mockReturnValue(null);
+      expect(() => window.preloadDependency('foo bar')).rejects.toThrow(
+        '"foo bar", missing ".js" suffix!',
+      );
+    });
 
-  it('creates a new object for each require call', async () => {
-    mw.loader.getState.mockReturnValue(null);
-    fetch.mockResolvedValue(createFetchResponse('module.exports={value:5};'));
-    const moduleName = 'User:Abc/xyz.js';
-    await window.preloadDependency(moduleName);
-    expect(fetch).toHaveBeenCalledWith(
-      '//localhost:3000/w/index.php?title=User:Abc/xyz.js&action=raw&ctype=text/javascript',
-    );
-    const firstCallResult = window.require(moduleName);
-    expect(firstCallResult.value).toBe(5);
-    const secondCallResult = window.require(moduleName);
-    expect(secondCallResult.value).toBe(5);
-    expect(firstCallResult).not.toBe(secondCallResult);
+    it('throws if module has not been preloaded', () => {
+      mw.loader.getState.mockReturnValue(null);
+      const moduleName = `User:Abc/xyz${Math.random()}.js`;
+      expect(() => window.require(moduleName)).toThrow(
+        `Failed loading module ${moduleName}`,
+      );
+    });
+
+    it('throws when preloading empty modules', () => {
+      fetch.mockResolvedValue(createFetchResponse(''));
+      const moduleName = `User:Abc/xyz${Math.random()}.js`;
+      expect(() => window.preloadDependency(moduleName)).rejects.toThrow(
+        `Failed preloading module ${moduleName}! Module is empty!`,
+      );
+    });
   });
 });
