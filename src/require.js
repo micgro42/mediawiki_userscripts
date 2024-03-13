@@ -80,14 +80,11 @@
 
     const moduleName = fixModuleName(initialModuleName);
     const host = location.host;
-    const options = {
-      dataType: 'text',
-      cache: true,
-      url: `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`,
-    };
-    return jQuery
-      .ajax(options)
-      .done(function (scriptText) {
+    const url = `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`;
+    // TODO: make sure caching works (must revalidate)!
+    return fetch(url)
+      .then(async function (response) {
+        const scriptText = await response.text();
         const nameParts = moduleName.split('/');
         const scriptName = nameParts.pop();
         if (!window.preloadedDependencies) {
@@ -105,7 +102,7 @@
         }
         ref[scriptName] = scriptText;
       })
-      .fail((...errorParams) => {
+      .catch((...errorParams) => {
         console.error(...errorParams);
       });
   };

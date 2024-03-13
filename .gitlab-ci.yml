@@ -12,6 +12,14 @@ install:
     paths:
       - node_modules
 
+test:
+  stage: test
+  script:
+    - yarn test
+  artifacts:
+    paths:
+      - node_modules
+
 publishToTest:
   stage: deploy
   script:
