@@ -1,4 +1,14 @@
 // This file is maintained at https://gitlab.wikimedia.org/migr/mediawiki_userscripts
+/**
+ * This adds two methods to the global window object: preloadDependency() and require()
+ *
+ * A common.js script/file/module stored on the current wiki (location.host) can be asynchronously loaded with
+ * `preloadDependency(<title of the page containing the module>)` and then anywhere else synchronously accessed with
+ * `require(<title of the page containing the module>)`
+ *
+ * `require(<resource loader module>)` still works as expected as well, that is, resource-loader must have loaded the
+ * module already (`mw.loader.getState(<resource loader module>) === 'ready')
+ */
 (function () {
   mw.loader.using('mediawiki.api', (require) => {
     window.mwLoaderRequire = require;
@@ -80,14 +90,11 @@
 
     const moduleName = fixModuleName(initialModuleName);
     const host = location.host;
-    const options = {
-      dataType: 'text',
-      cache: true,
-      url: `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`,
-    };
-    return jQuery
-      .ajax(options)
-      .done(function (scriptText) {
+    const url = `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`;
+    // TODO: make sure caching works (must revalidate)!
+    return fetch(url)
+      .then(async function (response) {
+        const scriptText = await response.text();
         const nameParts = moduleName.split('/');
         const scriptName = nameParts.pop();
         if (!window.preloadedDependencies) {
@@ -105,7 +112,7 @@
         }
         ref[scriptName] = scriptText;
       })
-      .fail((...errorParams) => {
+      .catch((...errorParams) => {
         console.error(...errorParams);
       });
   };

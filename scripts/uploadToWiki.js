@@ -134,6 +134,9 @@ async function getFileList(dirName) {
     if (item.name === 'index.js') {
       continue;
     }
+    if (item.name === '__tests__') {
+      continue;
+    }
     if (item.isDirectory()) {
       files = [...files, ...(await getFileList(`${dirName}/${item.name}`))];
     } else {
