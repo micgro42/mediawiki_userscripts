@@ -1,4 +1,14 @@
 // This file is maintained at https://gitlab.wikimedia.org/migr/mediawiki_userscripts
+/**
+ * This adds two methods to the global window object: preloadDependency() and require()
+ *
+ * A common.js script/file/module stored on the current wiki (location.host) can be asynchronously loaded with
+ * `preloadDependency(<title of the page containing the module>)` and then anywhere else synchronously accessed with
+ * `require(<title of the page containing the module>)`
+ *
+ * `require(<resource loader module>)` still works as expected as well, that is, resource-loader must have loaded the
+ * module already (`mw.loader.getState(<resource loader module>) === 'ready')
+ */
 (function () {
   mw.loader.using('mediawiki.api', (require) => {
     window.mwLoaderRequire = require;
