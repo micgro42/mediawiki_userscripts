@@ -7,6 +7,7 @@ cache:
 install:
   stage: build
   script:
+    - node --version
     - yarn install
   artifacts:
     paths:
@@ -15,6 +16,7 @@ install:
 test:
   stage: test
   script:
+    - node --version
     - yarn test
   artifacts:
     paths:
@@ -23,6 +25,7 @@ test:
 publishToTest:
   stage: deploy
   script:
+    - node --version
     - yarn deployAll -- --apiUrl=https://test.wikidata.org/w/api.php
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
