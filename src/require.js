@@ -15,26 +15,12 @@
   });
 
   function validateModuleName(moduleName) {
-    if (
-      moduleName.endsWith('.js') ||
-      moduleName === 'User:Zvpunry/components'
-    ) {
-      return;
+    if (!moduleName.endsWith('.js')) {
+      throw new Error(`"${moduleName}", missing ".js" suffix!`);
     }
-    throw new Error(`"${moduleName}", missing ".js" suffix!`);
   }
 
-  window.require = function require(moduleName) {
-    const moduleState = mw.loader.getState(moduleName);
-    if (moduleState === 'ready') {
-      return window.mwLoaderRequire(moduleName);
-    }
-    if (moduleState !== null) {
-      throw new Error(`state for ${moduleName} is ${moduleState}`);
-    }
-
-    validateModuleName(moduleName);
-    // loading user script dependency preloaded with preloadDependency
+  function getPreloadedModuleText(moduleName) {
     const nameParts = moduleName.split('/');
     let module = window.preloadedDependencies;
     try {
@@ -57,28 +43,47 @@
     }
 
     return module;
-  };
+  }
 
-  const moduleEvaluatingHandler = {
-    get(target, prop, receiver) {
-      let propValue = Reflect.get(...arguments);
-      if (!propValue) {
-        propValue = Reflect.get(target, `${prop}.js`, receiver);
+  function storeModuleText(moduleName, moduleText) {
+    const nameParts = moduleName.split('/');
+    const scriptName = nameParts.pop();
+    if (!window.preloadedDependencies) {
+      window.preloadedDependencies = {};
+    }
+    let ref = window.preloadedDependencies;
+    for (const part of nameParts) {
+      if (typeof ref[part] === 'undefined') {
+        ref[part] = {};
       }
-      if (typeof propValue === 'string') {
-        // .log(`Accessing ${prop} via proxy`)
-        const module = {};
-        Function('module', propValue)(module);
-        return module.exports;
-      }
+      ref = ref[part];
+    }
+    ref[scriptName] = moduleText;
+  }
 
-      return propValue;
-    },
+  function executeModuleText(moduleText) {
+    const module = {};
+    Function('module', moduleText)(module);
+    return module.exports;
+  }
+
+  window.require = function require(moduleName) {
+    const moduleState = mw.loader.getState(moduleName);
+    if (moduleState === 'ready') {
+      return window.mwLoaderRequire(moduleName);
+    }
+    if (moduleState !== null) {
+      throw new Error(`state for ${moduleName} is ${moduleState}`);
+    }
+
+    validateModuleName(moduleName);
+
+    const moduleText = getPreloadedModuleText(moduleName);
+
+    return executeModuleText(moduleText);
   };
 
   window.preloadDependency = async function preloadDependency(moduleName) {
-    // also consider mw.loader.using here?
-
     validateModuleName(moduleName);
     const host = location.host;
     const url = `//${host}/w/index.php?title=${moduleName}&action=raw&ctype=text/javascript`;
@@ -86,24 +91,12 @@
     return fetch(url).then(
       async function (response) {
         const scriptText = await response.text();
-        const nameParts = moduleName.split('/');
-        const scriptName = nameParts.pop();
-        if (!window.preloadedDependencies) {
-          window.preloadedDependencies = {};
-        }
-        let ref = window.preloadedDependencies;
-        for (const part of nameParts) {
-          if (typeof ref[part] === 'undefined') {
-            ref[part] = new Proxy({}, moduleEvaluatingHandler);
-          }
-          ref = ref[part];
-        }
         if (!scriptText) {
           throw new Error(
             `Failed preloading module ${moduleName}! Module is empty!`,
           );
         }
-        ref[scriptName] = scriptText;
+        storeModuleText(moduleName, scriptText);
       },
       (...errorParams) => {
         console.error(...errorParams);

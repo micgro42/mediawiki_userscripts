@@ -7,12 +7,10 @@ const {
   useModelWrapper,
 } = require('@wikimedia/codex');
 const { useMobileEditingStore } = require('User:Zvpunry/MobileEditingStore.js');
-const {
-  EntityLookup,
-  RankSelector,
-  SnakTypeSelector,
-  SnakValueInput,
-} = require('User:Zvpunry/components');
+const EntityLookup = require('User:Zvpunry/components/EntityLookup.js');
+const RankSelector = require('User:Zvpunry/components/RankSelector.js');
+const SnakTypeSelector = require('User:Zvpunry/components/SnakTypeSelector.js');
+const SnakValueInput = require('User:Zvpunry/components/SnakValueInput.js');
 
 module.exports = {
   name: 'MEApp',
