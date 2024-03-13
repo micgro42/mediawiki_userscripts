@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import Session from 'm3api/node.js';
 
 async function main() {
+  // eslint-disable-next-line no-unused-vars
   const [_nodeExecutable, _scriptName, ...args] = process.argv;
   let apiUrl;
   if (args.length === 0) {

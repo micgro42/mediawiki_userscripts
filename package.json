@@ -20,6 +20,7 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest",
+    "lint": "eslint .",
     "deployAll": "node scripts/uploadToWiki.js",
     "prepare": "husky install"
   },

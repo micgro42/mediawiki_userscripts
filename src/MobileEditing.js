@@ -82,6 +82,7 @@
  * https://phabricator.wikimedia.org/T344541: Codex Dialog does not add class to body about background not scrolling
  */
 jQuery(async () => {
+  /* global preloadDependency, Vue, mw, wikibase */
   if (mw.config.get('skin') !== 'minerva') {
     console.log(
       'Not minvera skin, not adding mobile editing. Actual skin: ' +
@@ -277,13 +278,13 @@ jQuery(async () => {
   const currentEntity = await loadEntity(entityId);
   const statements = [];
   for (const propertyId in currentEntity.claims) {
-    statementValues = currentEntity.claims[propertyId];
+    const statementValues = currentEntity.claims[propertyId];
     statementValues.forEach(
       (statement) => (statements[statement.id] = statement),
     );
   }
   Object.keys(statements).forEach((statementId) => {
-    $editStatementButton = jQuery(
+    const $editStatementButton = jQuery(
       '<button class="cdx-button cdx-button--icon-only" aria-label="edit">',
     )
       .text('🖊️')

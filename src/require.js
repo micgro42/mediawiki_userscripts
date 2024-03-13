@@ -10,6 +10,7 @@
  * module already (`mw.loader.getState(<resource loader module>) === 'ready')
  */
 (function () {
+  /* global mw */
   mw.loader.using('mediawiki.api', (require) => {
     window.mwLoaderRequire = require;
   });

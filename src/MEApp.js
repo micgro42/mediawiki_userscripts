@@ -1,11 +1,6 @@
 // This file is maintained at https://github.com/micgro42/mediawiki_userscripts
-const { ref, computed, toRef, inject, watch, toRaw } = require('vue');
-const {
-  CdxDialog,
-  CdxMessage,
-  CdxButton,
-  useModelWrapper,
-} = require('@wikimedia/codex');
+const { ref, computed, inject } = require('vue');
+const { CdxDialog, CdxMessage, CdxButton } = require('@wikimedia/codex');
 const { useMobileEditingStore } = require('User:Zvpunry/MobileEditingStore.js');
 const EntityLookup = require('User:Zvpunry/components/EntityLookup.js');
 const RankSelector = require('User:Zvpunry/components/RankSelector.js');

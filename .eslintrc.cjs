@@ -11,14 +11,14 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2022,
   },
   rules: {
     'no-console': 'off',
   },
   overrides: [
     {
-      files: ['vite.config.js', 'dev/*.js' ],
+      files: ['vite.config.js', 'dev/*.js', '*/__tests__/*' ],
       parserOptions: { sourceType: 'module' },
     },
   ],

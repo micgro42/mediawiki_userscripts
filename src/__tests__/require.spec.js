@@ -41,7 +41,7 @@ describe('require.js', () => {
 
   describe('happy paths', () => {
     it('uses the RL require for RL modules', () => {
-      mw.loader.getState.mockReturnValue('ready');
+      window.mw.loader.getState.mockReturnValue('ready');
       const moduleName = 'codex';
       window.require(moduleName);
       expect(rlRequire).toHaveBeenCalledWith(moduleName);
@@ -49,7 +49,7 @@ describe('require.js', () => {
     });
 
     it('loads and evaluates a custom user script', async () => {
-      mw.loader.getState.mockReturnValue(null);
+      window.mw.loader.getState.mockReturnValue(null);
       fetch.mockResolvedValue(createFetchResponse('module.exports=5;'));
       const moduleName = `User:Abc/xyz${Math.random()}.js`;
       await window.preloadDependency(moduleName);
@@ -62,7 +62,7 @@ describe('require.js', () => {
     });
 
     it('creates a new object for each require call', async () => {
-      mw.loader.getState.mockReturnValue(null);
+      window.mw.loader.getState.mockReturnValue(null);
       fetch.mockResolvedValue(createFetchResponse('module.exports={value:5};'));
       const moduleName = `User:Abc/xyz${Math.random()}.js`;
       await window.preloadDependency(moduleName);
@@ -80,14 +80,14 @@ describe('require.js', () => {
 
   describe('error handling', () => {
     it('throws if module name does not end with .js', () => {
-      mw.loader.getState.mockReturnValue(null);
+      window.mw.loader.getState.mockReturnValue(null);
       expect(() => window.preloadDependency('foo bar')).rejects.toThrow(
         '"foo bar", missing ".js" suffix!',
       );
     });
 
     it('throws if module has not been preloaded', () => {
-      mw.loader.getState.mockReturnValue(null);
+      window.mw.loader.getState.mockReturnValue(null);
       const moduleName = `User:Abc/xyz${Math.random()}.js`;
       expect(() => window.require(moduleName)).toThrow(
         `Failed loading module ${moduleName}`,
