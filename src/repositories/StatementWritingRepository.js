@@ -2,10 +2,12 @@
 class StatementWritingRepository {
   #api;
   #langCode;
+  #legacyWikibaseGUIDGenerator;
 
-  constructor(api, langCode) {
+  constructor(api, langCode, legacyWikibaseGUIDGenerator) {
     this.#api = api;
     this.#langCode = langCode;
+    this.#legacyWikibaseGUIDGenerator = legacyWikibaseGUIDGenerator;
   }
 
   writeNewStatement(entityId, propertyId, rank, snaktype, datavalue) {
@@ -93,11 +95,9 @@ class StatementWritingRepository {
 
   #getNewClaimGUID(entityId) {
     if (!crypto.randomUUID) {
-      // TODO: some tracking here would be nice.
-      const claimGuidGenerator = new wikibase.utilities.ClaimGuidGenerator(
-        entityId,
-      );
-      return claimGuidGenerator.newGuid();
+      // TODO: some tracking here would be nice to know how much this fallback is still used.
+      //       see https://caniuse.com/mdn-api_crypto_randomuuid
+      return this.#legacyWikibaseGUIDGenerator.newGuid();
     }
 
     return `${entityId}$${crypto.randomUUID()}`;

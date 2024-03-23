@@ -231,6 +231,7 @@ jQuery(async () => {
     const statementWritingRepository = new StatementWritingRepository(
       api,
       wgUserLanguage,
+      new wikibase.utilities.ClaimGuidGenerator(entityId),
     );
 
     const pinia = createPinia();
