@@ -18,6 +18,8 @@ test:
   script:
     - node --version
     - yarn test
+    - yarn lint
+    - yarn prettier . --list-different
   artifacts:
     paths:
       - node_modules
