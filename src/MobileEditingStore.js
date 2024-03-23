@@ -126,7 +126,7 @@ const useMobileEditingStore = defineStore('MobileEditing', {
     },
     saveStatement() {
       // FIXME: this should probably be in the store!
-      const currentEntityId = mw.config.get('wbEntityId');
+      const currentEntityId = this.mwConfig.entityId;
       if (this.id === null) {
         return this.statementWritingRepository
           .writeNewStatement(

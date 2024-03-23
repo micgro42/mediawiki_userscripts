@@ -51,7 +51,7 @@ window.loadApp = function loadApp(statementData = null) {
       changeExistingStatement,
     });
   });
-  pinia.use(() => ({ mwConfig: { wgUserLanguage: 'en' } }));
+  pinia.use(() => ({ mwConfig: { wgUserLanguage: 'en', entityId: 'Q123' } }));
   app.use(pinia);
 
   app

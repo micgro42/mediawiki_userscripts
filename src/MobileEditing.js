@@ -251,7 +251,7 @@ jQuery(async () => {
       store.statementWritingRepository = markRaw(statementWritingRepository);
     });
     pinia.use(() => ({
-      mwConfig: { wgUserLanguage },
+      mwConfig: { wgUserLanguage, entityId },
     }));
     app.use(pinia);
     app.provide('searchEntitiesRepository', searchEntitiesRepository);
