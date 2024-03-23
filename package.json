@@ -31,6 +31,8 @@
     "vue": "3.3.9"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md}": "prettier --write",
+    "*.js": "eslint",
+    "*.{js,ts}": "vitest related --run"
   }
 }
