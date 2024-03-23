@@ -21,6 +21,7 @@
     "dev": "vite",
     "test": "vitest",
     "lint": "eslint .",
+    "p": "prettier . --write --cache --cache-strategy metadata",
     "deployAll": "node scripts/uploadToWiki.js",
     "prepare": "husky install"
   },
@@ -31,7 +32,7 @@
     "vue": "3.3.9"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write",
+    "*": "prettier --write",
     "*.js": "eslint",
     "*.{js,ts}": "vitest related --run"
   }

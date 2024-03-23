@@ -18,7 +18,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['vite.config.js', 'dev/*.js', '**/__tests__/*' ],
+      files: ['vite.config.js', 'dev/*.js', '**/__tests__/*'],
       parserOptions: { sourceType: 'module' },
     },
   ],

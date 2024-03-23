@@ -32,5 +32,3 @@ publishToTest:
   artifacts:
     paths:
       - node_modules
-
-
