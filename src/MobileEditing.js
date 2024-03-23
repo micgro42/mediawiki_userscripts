@@ -193,6 +193,18 @@ jQuery(async () => {
   const $mountPoint = $('<div id="ZvpunryMobileEditing"></div>');
   $('#bodyContent').append($mountPoint);
 
+  const wgUserLanguage = mw.config.get('wgUserLanguage');
+  const api = new mw.Api({
+    parameters: {
+      format: 'json',
+      formatversion: 2,
+      errorformat: 'plaintext', // FIXME: is this actually what we want?
+      uselang: wgUserLanguage,
+    },
+  });
+  const ReadingEntityRepository = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
+  const readingEntityRepository = new ReadingEntityRepository(api);
+
   function mountMobileEditingApp(statementData = null) {
     const app = Vue.createMwApp(Main);
     const { markRaw } = require('vue');
@@ -200,21 +212,9 @@ jQuery(async () => {
     const DatavalueFormattingRepository = require('User:Zvpunry/repositories/DatavalueFormattingRepository.js');
     const { debounce } = require('User:Zvpunry/util.js');
     const SearchEntitiesRepository = require('User:Zvpunry/repositories/SearchEntitiesRepository.js');
-    const {
-      loadEntity,
-    } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
     const StatementWritingRepository = require('User:Zvpunry/repositories/StatementWritingRepository.js');
     const ValueParsingRepository = require('User:Zvpunry/repositories/ValueParsingRepository.js');
 
-    const wgUserLanguage = mw.config.get('wgUserLanguage');
-    const api = new mw.Api({
-      parameters: {
-        format: 'json',
-        formatversion: 2,
-        errorformat: 'plaintext', // FIXME: is this actually what we want?
-        uselang: wgUserLanguage,
-      },
-    });
     const searchEntitiesRepository = new SearchEntitiesRepository(
       api,
       wgUserLanguage,
@@ -244,7 +244,7 @@ jQuery(async () => {
       );
     });
     pinia.use(({ store }) => {
-      store.readingEntityRepository = markRaw({ loadEntity });
+      store.readingEntityRepository = markRaw(readingEntityRepository);
     });
     pinia.use(({ store }) => {
       store.statementWritingRepository = markRaw(statementWritingRepository);
@@ -272,10 +272,7 @@ jQuery(async () => {
   jQuery('#claims').after($addStatementButton);
   $addStatementButton.on('click', () => mountMobileEditingApp());
 
-  const {
-    loadEntity,
-  } = require('User:Zvpunry/repositories/CachingReadingEntityRepository.js');
-  const currentEntity = await loadEntity(entityId);
+  const currentEntity = await readingEntityRepository.loadEntity(entityId);
   const statements = [];
   for (const propertyId in currentEntity.claims) {
     const statementValues = currentEntity.claims[propertyId];

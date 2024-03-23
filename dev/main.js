@@ -6,7 +6,7 @@ const i18nPlugin = require('./i18nPlugin');
 const { debounce } = require('../src/util.js');
 const DatavalueFormattingRepository = require('../src/repositories/DatavalueFormattingRepository.js');
 const SearchEntitiesRepository = require('../src/repositories/SearchEntitiesRepository.js');
-const { loadEntity } = require('./ReadingEntityRepository.js');
+const ReadingEntitiesRepository = require('../src/repositories/CachingReadingEntityRepository.js');
 const {
   writeNewStatement,
   changeExistingStatement,
@@ -30,6 +30,8 @@ window.loadApp = function loadApp(statementData = null) {
     'Q123',
   );
 
+  const readingEntityRepository = new ReadingEntitiesRepository(devApiAdapter);
+
   const app = createApp(MEApp);
   const pinia = createPinia();
   pinia.use(({ store }) => {
@@ -41,7 +43,7 @@ window.loadApp = function loadApp(statementData = null) {
     );
   });
   pinia.use(({ store }) => {
-    store.readingEntityRepository = markRaw({ loadEntity });
+    store.readingEntityRepository = markRaw(readingEntityRepository);
   });
   pinia.use(({ store }) => {
     store.statementWritingRepository = markRaw({
