@@ -1,4 +1,4 @@
-image: node:latest
+image: docker-registry.wikimedia.org/nodejs18-devel:latest
 
 cache:
   paths:
@@ -8,7 +8,7 @@ install:
   stage: build
   script:
     - node --version
-    - yarn install
+    - npm install
   artifacts:
     paths:
       - node_modules
@@ -17,9 +17,9 @@ test:
   stage: test
   script:
     - node --version
-    - yarn test
-    - yarn lint
-    - yarn prettier . --list-different
+    - npm run test
+    - npm run lint
+    - npx prettier . --list-different
   artifacts:
     paths:
       - node_modules
@@ -30,7 +30,7 @@ publishToTest:
   stage: deploy
   script:
     - node --version
-    - yarn deployAll -- --apiUrl=https://test.wikidata.org/w/api.php
+    - npm run deployAll -- --apiUrl=https://test.wikidata.org/w/api.php
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   artifacts:
