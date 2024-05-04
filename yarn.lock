@@ -311,11 +311,6 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.0.tgz#a5417ae8427873f1dd08b70b3574b453e67b5f7f"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
-"@fastify/busboy@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.0.0.tgz#f22824caff3ae506b18207bad4126dbc6ccdb6b8"
-  integrity sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==
-
 "@floating-ui/core@^1.0.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.6.0.tgz#fa41b87812a16bf123122bf945946bae3fdf7fc1"
@@ -789,6 +784,13 @@ agent-base@^7.0.2, agent-base@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-7.1.0.tgz#536802b76bc0b34aa50195eb2442276d613e3434"
   integrity sha512-o/zjMZRhJxny7OyEF+Op8X+efiELC7k7yOjMzgfzVqOzXqkBkWI79YoTdOtsuWd5BWhAGAuOY/Xa6xpiaWXiNg==
+  dependencies:
+    debug "^4.3.4"
+
+agent-base@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-7.1.1.tgz#bdbded7dfb096b751a2a087eeeb9664725b2e317"
+  integrity sha512-H0TSyFNDMomMNJQBn8wFV5YC/2eJ+VXECwOadZJT554xP6cODZHPX3H9QMQECxvrgiSOP1pHjy1sMWQVYJOUOA==
   dependencies:
     debug "^4.3.4"
 
@@ -1391,12 +1393,12 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
-http-cookie-agent@^5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/http-cookie-agent/-/http-cookie-agent-5.0.4.tgz#b2dd3ba44f54f5c49387baac042c00ebba1216ae"
-  integrity sha512-OtvikW69RvfyP6Lsequ0fN5R49S+8QcS9zwd58k6VSr6r57T8G29BkPdyrBcSwLq6ExLs9V+rBlfxu7gDstJag==
+http-cookie-agent@^6.0.3:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/http-cookie-agent/-/http-cookie-agent-6.0.5.tgz#23b490439464424a689d80ea7f3a560a4a893ab8"
+  integrity sha512-sfZ8fDgDP3B1YB+teqSnAK1aPgBu8reUUGxSsndP2XnYN6cM29EURXWXZqQQiaRdor3B4QjpkUNfv21syaO4DA==
   dependencies:
-    agent-base "^7.1.0"
+    agent-base "^7.1.1"
 
 http-proxy-agent@^7.0.0:
   version "7.0.2"
@@ -1694,14 +1696,14 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-m3api@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/m3api/-/m3api-0.8.1.tgz#54836fea6e315e87c2220f4d58955a17c01a06ed"
-  integrity sha512-Nsn+QvtlOfHeaGKeeq1/CG9wL29W7cfKt7ztbgr7s1JQxdvkxeGc4wyTbAy1xJk1L+kctWMEAvfRRjTD4B5q/A==
+m3api@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/m3api/-/m3api-0.8.2.tgz#b60f93a24c9d7f8459dff7c0d520df867dfe1b62"
+  integrity sha512-kM+qZnbLapaAbXAFXBFoLSR+8IUb3YoLmUILnTyIKxO4WWZU480tW/HKaZiZLcHMYdqYfx3kStiU+PB9mo0A0w==
   dependencies:
-    http-cookie-agent "^5.0.4"
+    http-cookie-agent "^6.0.3"
     tough-cookie "^4.1.3"
-    undici "^5.27.2"
+    undici "^6.12.0"
 
 magic-string@^0.30.1:
   version "0.30.4"
@@ -2332,12 +2334,10 @@ ufo@^1.3.2:
   resolved "https://registry.yarnpkg.com/ufo/-/ufo-1.4.0.tgz#39845b31be81b4f319ab1d99fd20c56cac528d32"
   integrity sha512-Hhy+BhRBleFjpJ2vchUNN40qgkh0366FWJGqVLYBHev0vpHTrXSA0ryT+74UiW6KWsldNurQMKGqCm1M2zBciQ==
 
-undici@^5.27.2:
-  version "5.28.3"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-5.28.3.tgz#a731e0eff2c3fcfd41c1169a869062be222d1e5b"
-  integrity sha512-3ItfzbrhDlINjaP0duwnNsKpDQk3acHI3gVJ1z4fmwMK31k5G9OVIAMLSIaP6w4FaGkaAkN6zaQO9LUvZ1t7VA==
-  dependencies:
-    "@fastify/busboy" "^2.0.0"
+undici@^6.12.0:
+  version "6.15.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.15.0.tgz#ce97f0a0734439e65acc7059cd60824693987103"
+  integrity sha512-VviMt2tlMg1BvQ0FKXxrz1eJuyrcISrL2sPfBf7ZskX/FCEc/7LeThQaoygsMJpNqrATWQIsRVx+1Dpe4jaYuQ==
 
 universalify@^0.2.0:
   version "0.2.0"
