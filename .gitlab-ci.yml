@@ -25,6 +25,8 @@ test:
       - node_modules
 
 publishToTest:
+  tags:
+    - wmcs
   stage: deploy
   script:
     - node --version
