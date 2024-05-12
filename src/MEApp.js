@@ -12,10 +12,12 @@ module.exports = {
   template: `
       <cdx-dialog
           v-model:open="open"
+          class="zvpundy-mobile-editing"
           :title="isEdit ? 'Edit a Statement' : 'Add a new Statement'"
           close-button-label="Cancel"
           @update:open="toggleDialog"
       >
+          <component is="style" v-html="styles"></component>
           <entity-lookup
             v-if="!store.statementPropertyId"
             type="property"
@@ -148,6 +150,69 @@ module.exports = {
     function onStatementPropertySelected(propertyId) {
       store.setStatementPropertyId(propertyId);
     }
+    const styles = `
+    @media (prefers-color-scheme: dark) {
+      html:not(.skin-theme-clientpref-day,.skin-theme-clientpref-os,.skin-theme-clientpref-night) .zvpundy-mobile-editing {
+        --color-base: #f8f9fa;
+        --color-base--hover: #fff;
+        --color-emphasized: #fff;
+        --color-subtle: #eaecf0;
+        --color-placeholder: #c8ccd1;
+        --color-inverted: #101418;
+        --color-progressive: #6d8af2;
+        --color-progressive--hover: #afb6e9;
+        --color-progressive--active: #c2d1f0;
+        --color-destructive: #ff4242;
+        --color-destructive--hover: #ef8174;
+        --color-destructive--active: #f8a397;
+        --color-visited: #977dbd;
+        --color-error: #ff4242;
+        --color-warning: #fc3;
+        --color-success: #00af89;
+        --color-notice: #f8f9fa;
+        --color-content-added: #6d8af2;
+        --color-content-removed: #ad822b;
+        --box-shadow-color-base: #fff;
+        --box-shadow-color-inverted: #000;
+        --background-color-interactive: #27292d;
+        --background-color-interactive-subtle: #202122;
+        --background-color-disabled: #54595d;
+        --background-color-disabled-subtle: #404244;
+        --background-color-progressive-subtle: #1d2a42;
+        --background-color-destructive-subtle: #421211;
+        --background-color-error: #ff4242;
+        --background-color-error--hover: #ef8174;
+        --background-color-error--active: #f8a397;
+        --background-color-error-subtle: #421211;
+        --background-color-warning-subtle: #301d00;
+        --background-color-success-subtle: #00261e;
+        --background-color-notice-subtle: #202122;
+        --background-color-content-added: #36c;
+        --background-color-content-removed: #a66200;
+        --background-color-backdrop-light: rgba(0,0,0,0.65);
+        --background-color-backdrop-dark: rgba(255,255,255,0.65);
+        --background-color-base: #101418;
+        --background-color-neutral: #27292d;
+        --background-color-neutral-subtle: #202122;
+        --border-color-base: #72777d;
+        --border-color-interactive: #a2a9b1;
+        --border-color-disabled: #54595d;
+        --border-color-subtle: #54595d;
+        --border-color-muted: #404244;
+        --border-color-inverted: #101418;
+        --border-color-error: #ff4242;
+        --border-color-error--hover: #ef8174;
+        --border-color-warning: #fc3;
+        --border-color-success: #00af89;
+        --border-color-notice: #c8ccd1;
+        --border-color-content-added: #36c;
+        --border-color-content-removed: #a66200;
+
+        /* copied from the mediawiki body so that the variables actually apply to text*/
+        background-color: var(--background-color-base);
+        color: var(--color-base);
+    } }
+    `;
     return {
       onStatementPropertySelected,
       onRankUpdate,
@@ -160,6 +225,7 @@ module.exports = {
       saveStatement,
       deleteStatement,
       isEdit,
+      styles,
     };
   },
 };
