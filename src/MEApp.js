@@ -152,7 +152,7 @@ module.exports = {
     }
     const styles = `
     @media (prefers-color-scheme: dark) {
-      html:not(.skin-theme-clientpref-day,.skin-theme-clientpref-os,.skin-theme-clientpref-night) .zvpundy-mobile-editing {
+      .zvpundy-mobile-editing {
         --color-base: #f8f9fa;
         --color-base--hover: #fff;
         --color-emphasized: #fff;
